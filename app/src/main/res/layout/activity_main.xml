@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/parkBtn"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/simple_car"
+        android:contentDescription="@string/park_your_car"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.30" />
+
+    <Button
+        android:id="@+id/navigateBtn"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="28dp"
+        android:alpha="0"
+        android:background="@drawable/navigate"
+        android:clickable="false"
+        android:contentDescription="@string/navigate_to_your_car"
+        app:layout_constraintBaseline_toBaselineOf="@+id/parkBtn"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/getLocationBtn"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginEnd="32dp"
+        android:alpha="0"
+        android:background="@drawable/location"
+        android:clickable="false"
+        android:contentDescription="@string/locate_your_car"
+        app:layout_constraintBaseline_toBaselineOf="@+id/parkBtn"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/navigateL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="325dp"
+        android:alpha="0"
+        android:text="Navigate to car"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/navigateBtn"
+        app:layout_constraintStart_toStartOf="@+id/navigateBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/locateL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:text="Locate car"
+        android:textSize="24sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/navigateL"
+        app:layout_constraintEnd_toEndOf="@+id/getLocationBtn"
+        app:layout_constraintStart_toStartOf="@+id/getLocationBtn" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

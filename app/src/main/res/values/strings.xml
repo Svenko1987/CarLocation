@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">carLocation</string>
+    <string name="locate_your_car">Locate your car</string>
+    <string name="navigate_to_your_car">Navigate to your car</string>
+    <string name="park_your_car">Park your car</string>
+</resources>
