@@ -42,31 +42,28 @@ public class GPSControls {
         Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(context)
                 .checkLocationSettings(builder.build());
 
-        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+        result.addOnCompleteListener(task -> {
 
-                try {
-                    LocationSettingsResponse response = task.getResult(ApiException.class);
-                    Toast.makeText(context, "GPS is already tured on", Toast.LENGTH_SHORT).show();
+            try {
+                LocationSettingsResponse response = task.getResult(ApiException.class);
+                Toast.makeText(context, "GPS is already turned on", Toast.LENGTH_SHORT).show();
 
-                } catch (ApiException e) {
+            } catch (ApiException e) {
 
-                    switch (e.getStatusCode()) {
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                switch (e.getStatusCode()) {
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
 
-                            try {
-                                ResolvableApiException resolvableApiException = (ResolvableApiException) e;
-                                resolvableApiException.startResolutionForResult((Activity) context, 2);
-                            } catch (IntentSender.SendIntentException ex) {
-                                ex.printStackTrace();
-                            }
-                            break;
+                        try {
+                            ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                            resolvableApiException.startResolutionForResult((Activity) context, 2);
+                        } catch (IntentSender.SendIntentException ex) {
+                            ex.printStackTrace();
+                        }
+                        break;
 
-                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                            //Device does not have location
-                            break;
-                    }
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        //Device does not have location
+                        break;
                 }
             }
         });

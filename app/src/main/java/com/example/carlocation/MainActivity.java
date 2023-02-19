@@ -16,8 +16,10 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.carlocation.controls.Btn.AppStatus;
 import com.example.carlocation.controls.GPS.GPSControls;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -32,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     private Button locate;
     private TextView navigateL;
     private TextView locateL;
+    private TextView loadingL;
+
+    private ProgressBar progressBar;
+
     private double latitude;
     private double longitude;
     private Button test;
@@ -47,10 +53,14 @@ public class MainActivity extends AppCompatActivity {
 
         parkCar = findViewById(R.id.parkBtn);
         navigate = findViewById(R.id.navigateBtn);
+
         locate = findViewById(R.id.getLocationBtn);
+
         locateL = findViewById(R.id.locateL);
         navigateL = findViewById(R.id.navigateL);
         test = findViewById(R.id.button4);
+        loadingL = findViewById(R.id.loadingL);
+        progressBar = findViewById(R.id.progressBar);
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -58,11 +68,16 @@ public class MainActivity extends AppCompatActivity {
         locationRequest.setFastestInterval(2000);
 
         GPSControls gpsControls = new GPSControls(locationRequest, MainActivity.this);
+        AppStatus appStatus = new AppStatus();
 
 
         parkCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG, "onClick: Clicked on park");
+                parkCar.setVisibility(View.GONE);
+                appStatus.showItemDelay(progressBar, 0);
+                appStatus.showItemDelay(loadingL, 0);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
@@ -73,25 +88,25 @@ public class MainActivity extends AppCompatActivity {
                                 public void onLocationResult(@NonNull LocationResult locationResult) {
                                     super.onLocationResult(locationResult);
 
+
                                     LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
                                     if (locationResult != null && locationResult.getLocations().size() > 0) {
                                         int index = locationResult.getLocations().size() - 1;
                                         latitude = locationResult.getLocations().get(index).getLatitude();
                                         longitude = locationResult.getLocations().get(index).getLongitude();
 
+                                        if (appStatus.gotLocation(longitude, latitude)) {
+                                            appStatus.hideItemDelay(progressBar, 0);
+                                            appStatus.hideItemDelay(loadingL, 0);
 
-                                        parkCar.setVisibility(View.GONE);
+                                            appStatus.showItemDelay(navigate, 300);
+                                            navigate.setEnabled(true);
+                                            appStatus.showItemDelay(navigateL, 300);
+                                            appStatus.showItemDelay(locate, 300);
+                                            locate.setEnabled(true);
+                                            appStatus.showItemDelay(locateL, 300);
+                                        }
 
-                                        navigate.animate().alpha(1.0f).setDuration(300);
-                                        navigate.setClickable(true);
-                                        navigateL.animate().alpha(1.0f).setDuration(300);
-                                        navigateL.setClickable(true);
-                                        navigate.setEnabled(true);
-                                        locate.animate().alpha(1.0f).setDuration(300);
-                                        locate.setClickable(true);
-                                        locate.setEnabled(true);
-                                        locateL.animate().alpha(1.0f).setDuration(300);
-                                        locateL.setClickable(true);
 
                                     }
                                 }
@@ -106,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        test.setOnClickListener(view -> {
+/*        test.setOnClickListener(view -> {
             Log.d(TAG, "CLICKED " + longitude + " : " + latitude);
            // 52.56965711676344, 13.327067953138586
             String labelLocation="Parked location";
@@ -123,21 +138,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
            // }
 
-        });
+        });*/
         locate.setOnClickListener(view -> {
-            Log.d(TAG, "CLICKED " + longitude + " : " + latitude);
-            String labelLocation="Parked location";
-            Uri gmmIntentUri = Uri.parse("geo:<" + latitude  + ">,<" + longitude + ">?q=<" + latitude  + ">,<" + longitude + ">(" + labelLocation + ")");
-            Intent intent= new Intent(Intent.ACTION_VIEW,gmmIntentUri);
-            intent.setPackage("com.google.android.apps.maps");
-            startActivity(intent);
+            if (appStatus.gotLocation(latitude, longitude)) {
+                Log.d(TAG, "CLICKED " + longitude + " : " + latitude);
+                String labelLocation = "Parked location";
+                Uri gmmIntentUri = Uri.parse("geo:<" + latitude + ">,<" + longitude + ">?q=<" + latitude + ">,<" + longitude + ">(" + labelLocation + ")");
+                Intent intent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                intent.setPackage("com.google.android.apps.maps");
+                startActivity(intent);
+            }
         });
         navigate.setOnClickListener(view -> {
-            Log.d(TAG, "CLICKED " + longitude + " : " + latitude);
-            Uri gmmIntentUri = Uri.parse("google.navigation:q="+latitude+","+longitude+"&mode=w");
-            Intent intent= new Intent(Intent.ACTION_VIEW,gmmIntentUri);
-            intent.setPackage("com.google.android.apps.maps");
-            startActivity(intent);
+            if (appStatus.gotLocation(latitude, longitude)) {
+                Log.d(TAG, "CLICKED " + longitude + " : " + latitude);
+                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + latitude + "," + longitude + "&mode=w");
+                Intent intent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                intent.setPackage("com.google.android.apps.maps");
+                startActivity(intent);
+            }
         });
 
 

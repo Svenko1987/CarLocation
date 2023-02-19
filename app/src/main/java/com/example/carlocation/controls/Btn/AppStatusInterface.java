@@ -4,8 +4,10 @@ import android.view.View;
 
 public interface AppStatusInterface {
 
-    boolean gotLocation();
-    void hideItem(View view);
-    void showItem(View view);
+    boolean gotLocation(double longitude, double latitude);
+    void hideItemDelay(View view, int time);
+    void hideItemInstant(View view);
+    void showItemDelay(View view, int time);
+    void ShowItemInstant(View view);
 
 }
