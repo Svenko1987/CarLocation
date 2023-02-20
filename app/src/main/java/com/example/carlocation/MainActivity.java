@@ -9,6 +9,8 @@ import androidx.core.app.ActivityCompat;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +28,10 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -35,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView navigateL;
     private TextView locateL;
     private TextView loadingL;
+    private TextView locationName;
 
     private ProgressBar progressBar;
 
@@ -55,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         navigate = findViewById(R.id.navigateBtn);
 
         locate = findViewById(R.id.getLocationBtn);
+        locationName = findViewById(R.id.locationET);
 
         locateL = findViewById(R.id.locateL);
         navigateL = findViewById(R.id.navigateL);
@@ -94,11 +102,14 @@ public class MainActivity extends AppCompatActivity {
                                         int index = locationResult.getLocations().size() - 1;
                                         latitude = locationResult.getLocations().get(index).getLatitude();
                                         longitude = locationResult.getLocations().get(index).getLongitude();
+                                        gpsControls.getAddress(latitude, longitude, locationName);
+
 
                                         if (appStatus.gotLocation(longitude, latitude)) {
+
                                             appStatus.hideItemDelay(progressBar, 0);
                                             appStatus.hideItemDelay(loadingL, 0);
-
+                                            appStatus.showItemDelay(locationName, 300);
                                             appStatus.showItemDelay(navigate, 300);
                                             navigate.setEnabled(true);
                                             appStatus.showItemDelay(navigateL, 300);

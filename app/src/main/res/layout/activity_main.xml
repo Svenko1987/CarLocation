@@ -116,6 +116,7 @@
         android:layout_height="100dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
+        android:background="@null"
         android:alpha="0"
         android:ems="10"
         android:inputType=""

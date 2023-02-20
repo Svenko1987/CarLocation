@@ -1,10 +1,17 @@
 package com.example.carlocation.controls.GPS;
 
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.IntentSender;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +27,9 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 
 public class GPSControls {
@@ -78,6 +88,20 @@ public class GPSControls {
 
         isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         return isEnabled;
+
+    }
+    public void getAddress(double latitude, double longitude, TextView textView){
+        Geocoder geocoder= new Geocoder(context, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude,longitude,2);
+            String city=addresses.get(0).getFeatureName();
+            String houseNumber = addresses.get(0).getLocality();
+            String street= addresses.get(0).getThoroughfare();
+            textView.setText(city+" "+street+" "+houseNumber);
+            Log.d(TAG, "getAddress: "+city+"  "+houseNumber+"  "+street);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
