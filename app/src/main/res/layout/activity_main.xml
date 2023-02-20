@@ -55,6 +55,17 @@
         app:layout_constraintTop_toBottomOf="@+id/navigateBtn" />
 
     <TextView
+        android:id="@+id/resetL"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:text="Repark"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/resetLocationBtn"
+        app:layout_constraintTop_toBottomOf="@+id/resetLocationBtn" />
+
+    <TextView
         android:id="@+id/locateL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -104,11 +115,12 @@
         android:id="@+id/parkTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:alpha="0"
         android:ems="10"
         android:inputType=""
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="132dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locationET" />
 
     <EditText
         android:id="@+id/locationET"
@@ -122,6 +134,18 @@
         android:inputType=""
         android:text=""
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/resetLocationBtn"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:alpha="0"
+        android:clickable="false"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/reset"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

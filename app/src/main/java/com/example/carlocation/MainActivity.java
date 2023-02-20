@@ -38,9 +38,10 @@ public class MainActivity extends AppCompatActivity {
     private Button parkCar;
     private Button navigate;
     private Button locate;
+    private Button resetLocation;
     private TextView navigateL;
     private TextView locateL;
-    private TextView loadingL;
+    private TextView loadingL,resetL;
     private TextView locationName;
 
     private ProgressBar progressBar;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         parkCar = findViewById(R.id.parkBtn);
         navigate = findViewById(R.id.navigateBtn);
-
+        resetLocation=findViewById(R.id.resetLocationBtn);
         locate = findViewById(R.id.getLocationBtn);
         locationName = findViewById(R.id.locationET);
 
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         navigateL = findViewById(R.id.navigateL);
         test = findViewById(R.id.button4);
         loadingL = findViewById(R.id.loadingL);
+        resetL= findViewById(R.id.resetL);
         progressBar = findViewById(R.id.progressBar);
 
         locationRequest = LocationRequest.create();
@@ -109,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
 
                                             appStatus.hideItemDelay(progressBar, 0);
                                             appStatus.hideItemDelay(loadingL, 0);
+                                            appStatus.showItemDelay(resetL,300);
+                                            appStatus.showItemDelay(resetLocation,300);
+                                            resetLocation.setEnabled(true);
                                             appStatus.showItemDelay(locationName, 300);
                                             appStatus.showItemDelay(navigate, 300);
                                             navigate.setEnabled(true);
@@ -168,6 +173,9 @@ public class MainActivity extends AppCompatActivity {
                 intent.setPackage("com.google.android.apps.maps");
                 startActivity(intent);
             }
+        });
+        resetLocation.setOnClickListener(view -> {
+            Log.d(TAG, "onCreate: REPARK");
         });
 
 
