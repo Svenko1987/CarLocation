@@ -10,13 +10,9 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.example.carlocation.MainActivity;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
@@ -24,7 +20,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
@@ -78,30 +73,35 @@ public class GPSControls {
             }
         });
     }
+
     public boolean isGPSEnable() {
         LocationManager locationManager = null;
         boolean isEnabled = false;
 
         if (locationManager == null) {
-            locationManager =(LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         }
 
         isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         return isEnabled;
 
     }
-    public void getAddress(double latitude, double longitude, TextView textView){
-        Geocoder geocoder= new Geocoder(context, Locale.getDefault());
+
+    public void getAddressToText(double latitude, double longitude, TextView textView) {
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         try {
-            List<Address> addresses = geocoder.getFromLocation(latitude,longitude,2);
-            String city=addresses.get(0).getFeatureName();
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 2);
+            String city = addresses.get(0).getFeatureName();
             String houseNumber = addresses.get(0).getLocality();
-            String street= addresses.get(0).getThoroughfare();
-            textView.setText(city+" "+street+" "+houseNumber);
-            Log.d(TAG, "getAddress: "+city+"  "+houseNumber+"  "+street);
+            String street = addresses.get(0).getThoroughfare();
+            textView.setText(city + " " + street + " " + houseNumber);
+            Log.d(TAG, "getAddress: " + city + "  " + houseNumber + "  " + street);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
+
+
+
 }

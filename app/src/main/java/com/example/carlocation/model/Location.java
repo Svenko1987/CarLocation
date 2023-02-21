@@ -1,20 +1,43 @@
 package com.example.carlocation.model;
 
+import android.content.Context;
+import android.location.Address;
 import android.location.Geocoder;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Location {
     private double latitude,longitude;
     private String street,houseNumber,city,postal,photoURL;
-    private Date date;
+    private Address address;
+    private String date;
     private Long time;
 
-    public Location(double latitude, double longitude) {
+    public Location(double latitude, double longitude, Context context) {
         this.latitude = latitude;
         this.longitude = longitude;
+        try {
+            this.address= (Address) setAddress(latitude,longitude,context);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        this.city=address.getFeatureName();
+        this.houseNumber=address.getLocality();
+        this.street=address.getThoroughfare();
+        setDate();
 
+
+    }
+    public Address setAddress(double latitude, double longitude, Context context) throws IOException {
+        Address address = null;
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 2);
+        address=addresses.get(0);
+        return address;
     }
 
     public double getLatitude() {
@@ -74,12 +97,14 @@ public class Location {
         this.photoURL = photoURL;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        this.date = sdf.format(new Date());
+
     }
 
     public Long getTime() {

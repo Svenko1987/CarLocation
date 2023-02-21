@@ -9,8 +9,6 @@ import androidx.core.app.ActivityCompat;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,10 +25,6 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -104,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                                         int index = locationResult.getLocations().size() - 1;
                                         latitude = locationResult.getLocations().get(index).getLatitude();
                                         longitude = locationResult.getLocations().get(index).getLongitude();
-                                        gpsControls.getAddress(latitude, longitude, locationName);
+                                        gpsControls.getAddressToText(latitude, longitude, locationName);
 
 
                                         if (appStatus.gotLocation(longitude, latitude)) {
