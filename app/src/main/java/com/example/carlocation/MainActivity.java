@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.carlocation.controls.Btn.AppStatus;
 import com.example.carlocation.controls.GPS.GPSControls;
+import com.example.carlocation.model.Location;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Button resetLocation;
     private TextView navigateL;
     private TextView locateL;
-    private TextView loadingL,resetL;
+    private TextView loadingL, resetL;
     private TextView locationName;
 
     private ProgressBar progressBar;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private Button test;
 
     private LocationRequest locationRequest;
+    private Location location;
 
 
     @SuppressLint("MissingInflatedId")
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         parkCar = findViewById(R.id.parkBtn);
         navigate = findViewById(R.id.navigateBtn);
-        resetLocation=findViewById(R.id.resetLocationBtn);
+        resetLocation = findViewById(R.id.resetLocationBtn);
         locate = findViewById(R.id.getLocationBtn);
         locationName = findViewById(R.id.locationET);
 
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         navigateL = findViewById(R.id.navigateL);
         test = findViewById(R.id.button4);
         loadingL = findViewById(R.id.loadingL);
-        resetL= findViewById(R.id.resetL);
+        resetL = findViewById(R.id.resetL);
         progressBar = findViewById(R.id.progressBar);
 
         locationRequest = LocationRequest.create();
@@ -99,23 +101,19 @@ public class MainActivity extends AppCompatActivity {
                                         latitude = locationResult.getLocations().get(index).getLatitude();
                                         longitude = locationResult.getLocations().get(index).getLongitude();
                                         gpsControls.getAddressToText(latitude, longitude, locationName);
-
-
-                                        if (appStatus.gotLocation(longitude, latitude)) {
-
-                                            appStatus.hideItemDelay(progressBar, 0);
-                                            appStatus.hideItemDelay(loadingL, 0);
-                                            appStatus.showItemDelay(resetL,300);
-                                            appStatus.showItemDelay(resetLocation,300);
-                                            resetLocation.setEnabled(true);
-                                            appStatus.showItemDelay(locationName, 300);
-                                            appStatus.showItemDelay(navigate, 300);
-                                            navigate.setEnabled(true);
-                                            appStatus.showItemDelay(navigateL, 300);
-                                            appStatus.showItemDelay(locate, 300);
-                                            locate.setEnabled(true);
-                                            appStatus.showItemDelay(locateL, 300);
-                                        }
+                                        location = new Location(latitude, longitude, MainActivity.this);
+                                        appStatus.hideItemDelay(progressBar, 0);
+                                        appStatus.hideItemDelay(loadingL, 0);
+                                        appStatus.showItemDelay(resetL, 300);
+                                        appStatus.showItemDelay(resetLocation, 300);
+                                        resetLocation.setEnabled(true);
+                                        appStatus.showItemDelay(locationName, 300);
+                                        appStatus.showItemDelay(navigate, 300);
+                                        navigate.setEnabled(true);
+                                        appStatus.showItemDelay(navigateL, 300);
+                                        appStatus.showItemDelay(locate, 300);
+                                        locate.setEnabled(true);
+                                        appStatus.showItemDelay(locateL, 300);
 
 
                                     }
@@ -169,7 +167,65 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         resetLocation.setOnClickListener(view -> {
-            Log.d(TAG, "onCreate: REPARK");
+
+            Log.d(TAG, "onClick: Clicked on repark");
+            parkCar.setVisibility(View.GONE);
+            appStatus.hideItemDelay(resetLocation,0);
+            appStatus.hideItemDelay(navigate,0);
+            appStatus.hideItemDelay(navigateL,0);
+            appStatus.hideItemDelay(resetL,0);
+            appStatus.hideItemDelay(locate,0);
+            appStatus.hideItemDelay(locateL,0);
+            appStatus.hideItemDelay(locationName,0);
+
+
+            appStatus.showItemDelay(progressBar, 0);
+            appStatus.showItemDelay(loadingL, 0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+                    if (gpsControls.isGPSEnable()) {
+
+                        LocationServices.getFusedLocationProviderClient(MainActivity.this).requestLocationUpdates(locationRequest, new LocationCallback() {
+                            @Override
+                            public void onLocationResult(@NonNull LocationResult locationResult) {
+                                super.onLocationResult(locationResult);
+
+
+                                LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
+                                if (locationResult != null && locationResult.getLocations().size() > 0) {
+                                    int index = locationResult.getLocations().size() - 1;
+                                    latitude = locationResult.getLocations().get(index).getLatitude();
+                                    longitude = locationResult.getLocations().get(index).getLongitude();
+                                    gpsControls.getAddressToText(latitude, longitude, locationName);
+                                    location = new Location(latitude, longitude, MainActivity.this);
+                                    appStatus.hideItemDelay(progressBar, 0);
+                                    appStatus.hideItemDelay(loadingL, 0);
+                                    appStatus.showItemDelay(resetL, 300);
+                                    appStatus.showItemDelay(resetLocation, 300);
+                                    resetLocation.setEnabled(true);
+                                    appStatus.showItemDelay(locationName, 300);
+                                    appStatus.showItemDelay(navigate, 300);
+                                    navigate.setEnabled(true);
+                                    appStatus.showItemDelay(navigateL, 300);
+                                    appStatus.showItemDelay(locate, 300);
+                                    locate.setEnabled(true);
+                                    appStatus.showItemDelay(locateL, 300);
+
+
+                                }
+                            }
+                        }, Looper.getMainLooper());
+
+                    } else {
+                        gpsControls.turnOnGPS();
+                    }
+                } else {
+                    requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                }
+            }
+
+
         });
 
 
