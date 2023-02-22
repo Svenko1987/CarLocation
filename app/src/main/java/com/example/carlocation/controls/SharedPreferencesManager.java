@@ -1,5 +1,6 @@
 package com.example.carlocation.controls;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
 import com.example.carlocation.model.Location;
@@ -11,6 +12,7 @@ public class SharedPreferencesManager {
     Location location;
 
     public SharedPreferencesManager(SharedPreferences sharedPreferences, Location location) {
+
         this.sharedPreferences = sharedPreferences;
         this.location = location;
     }
@@ -29,5 +31,13 @@ public class SharedPreferencesManager {
         String json = sharedPreferences.getString("CarLocation","");
         location=gson.fromJson(json,Location.class);
         return location;
+    }
+    @SuppressLint("SuspiciousIndentation")
+    public boolean IsEmpty(){
+        if(sharedPreferences.contains("CarLocation")){
+            return true;
+        }else
+        return false;
+
     }
 }

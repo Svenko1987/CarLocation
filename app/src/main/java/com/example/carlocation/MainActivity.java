@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.carlocation.controls.Btn.AppStatus;
 import com.example.carlocation.controls.GPS.GPSControls;
+import com.example.carlocation.controls.SharedPreferencesManager;
 import com.example.carlocation.model.Location;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -47,16 +48,11 @@ public class MainActivity extends AppCompatActivity {
     private double longitude;
     private Button test;
     private SharedPreferences sharedPreferences;
+    private SharedPreferencesManager manager;
 
     private LocationRequest locationRequest;
     private Location location;
 
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-    }
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -77,7 +73,14 @@ public class MainActivity extends AppCompatActivity {
         resetL = findViewById(R.id.resetL);
         progressBar = findViewById(R.id.progressBar);
 
-        sharedPreferences=getSharedPreferences("CarLocation",MODE_PRIVATE);
+        manager = new SharedPreferencesManager(sharedPreferences, location);
+//        try {
+//            if(!sharedPreferences.contains("CarLocation"))
+//                sharedPreferences = getSharedPreferences("CarLocation", MODE_PRIVATE);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -164,13 +167,13 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d(TAG, "onClick: Clicked on repark");
             parkCar.setVisibility(View.GONE);
-            appStatus.hideItemDelay(resetLocation,0);
-            appStatus.hideItemDelay(navigate,0);
-            appStatus.hideItemDelay(navigateL,0);
-            appStatus.hideItemDelay(resetL,0);
-            appStatus.hideItemDelay(locate,0);
-            appStatus.hideItemDelay(locateL,0);
-            appStatus.hideItemDelay(locationName,0);
+            appStatus.hideItemDelay(resetLocation, 0);
+            appStatus.hideItemDelay(navigate, 0);
+            appStatus.hideItemDelay(navigateL, 0);
+            appStatus.hideItemDelay(resetL, 0);
+            appStatus.hideItemDelay(locate, 0);
+            appStatus.hideItemDelay(locateL, 0);
+            appStatus.hideItemDelay(locationName, 0);
 
 
             appStatus.showItemDelay(progressBar, 0);
@@ -222,6 +225,14 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (latitude != 0.0 && longitude != 0.0)
+            manager.putToSharedPreferences();
 
 
     }
