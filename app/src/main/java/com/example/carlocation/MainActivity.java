@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
+import android.app.SharedElementCallback;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -44,10 +46,17 @@ public class MainActivity extends AppCompatActivity {
     private double latitude;
     private double longitude;
     private Button test;
+    private SharedPreferences sharedPreferences;
 
     private LocationRequest locationRequest;
     private Location location;
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -67,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
         loadingL = findViewById(R.id.loadingL);
         resetL = findViewById(R.id.resetL);
         progressBar = findViewById(R.id.progressBar);
+
+        sharedPreferences=getSharedPreferences("CarLocation",MODE_PRIVATE);
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -129,24 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-/*        test.setOnClickListener(view -> {
-            Log.d(TAG, "CLICKED " + longitude + " : " + latitude);
-           // 52.56965711676344, 13.327067953138586
-            String labelLocation="Parked location";
-            latitude=52.56965711676344;
-            longitude=13.327067953138586;
 
-           // Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=loc52.56965711676344,13.327067953138586&mode=d"));
-            //Uri gmmIntentUri = Uri.parse("geo:52.56965711676344,13.327067953138586?z=20");
-            Uri gmmIntentUri = Uri.parse("geo:<" + latitude  + ">,<" + longitude + ">?q=<" + latitude  + ">,<" + longitude + ">(" + labelLocation + ")");
-
-            Intent intent= new Intent(Intent.ACTION_VIEW,gmmIntentUri);
-            intent.setPackage("com.google.android.apps.maps");
-            //if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent);
-           // }
-
-        });*/
         locate.setOnClickListener(view -> {
             if (appStatus.gotLocation(latitude, longitude)) {
                 Log.d(TAG, "CLICKED " + longitude + " : " + latitude);
@@ -227,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+
 
 
     }
