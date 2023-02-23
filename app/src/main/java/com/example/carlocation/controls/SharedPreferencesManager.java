@@ -1,7 +1,10 @@
 package com.example.carlocation.controls;
 
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.carlocation.model.Location;
 import com.google.gson.Gson;
@@ -24,17 +27,25 @@ public class SharedPreferencesManager {
         String json=gson.toJson(location);
         editor.putString("CarLocation",json);
         editor.commit();
+        Log.d(TAG, "putToSharedPreferences: SAVED"+location.getLatitude()+" "+ location.getLongitude());
 
     }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     public Location getFromSharedPreferences(){
         Gson gson = new Gson();
         String json = sharedPreferences.getString("CarLocation","");
         location=gson.fromJson(json,Location.class);
+        Log.d(TAG, "getFromSharedPreferences: "+location.getLatitude()+" "+ location.getLongitude());
         return location;
+
     }
     @SuppressLint("SuspiciousIndentation")
     public boolean IsEmpty(){
-        if(sharedPreferences.contains("CarLocation")){
+        if(!sharedPreferences.contains("CarLocation")){
             return true;
         }else
         return false;

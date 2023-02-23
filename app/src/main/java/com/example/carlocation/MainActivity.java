@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private double longitude;
     private Button test;
     private SharedPreferences sharedPreferences;
+    public static final String MyPREFERENCES = "CarLocation";
+    public static final String value = "key";
     private SharedPreferencesManager manager;
 
     private LocationRequest locationRequest;
@@ -59,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "onCreate: sharedPreferences created");
 
+        sharedPreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         parkCar = findViewById(R.id.parkBtn);
         navigate = findViewById(R.id.navigateBtn);
         resetLocation = findViewById(R.id.resetLocationBtn);
@@ -74,12 +78,13 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         manager = new SharedPreferencesManager(sharedPreferences, location);
-//        try {
-//            if(!sharedPreferences.contains("CarLocation"))
-//                sharedPreferences = getSharedPreferences("CarLocation", MODE_PRIVATE);
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
+        Log.d(TAG, "onCreate: sharedPreferences created");
+        if (manager.IsEmpty()) {
+            Log.d(TAG, "onCreate: Prazan");
+        } else {
+            Log.d(TAG, "onCreate: Nije prazan");
+            location = manager.getFromSharedPreferences();
+        }
 
 
         locationRequest = LocationRequest.create();
@@ -116,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                                         longitude = locationResult.getLocations().get(index).getLongitude();
                                         gpsControls.getAddressToText(latitude, longitude, locationName);
                                         location = new Location(latitude, longitude, MainActivity.this);
+                                        manager.setLocation(location);
                                         appStatus.hideItemDelay(progressBar, 0);
                                         appStatus.hideItemDelay(loadingL, 0);
                                         appStatus.showItemDelay(resetL, 300);
