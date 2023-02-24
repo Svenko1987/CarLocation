@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation, navigateL, locateL, loadingL, resetL, locationName, progressBar);
 
+        GPSControls gpsControls = new GPSControls(locationRequest, MainActivity.this);
+        AppStatus appStatus = new AppStatus();
+
         manager = new SharedPreferencesManager(sharedPreferences, location);
         Log.d(TAG, "onCreate: sharedPreferences created");
         if (manager.IsEmpty()) {
@@ -79,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "onCreate: Nije prazan");
             location = manager.getFromSharedPreferences();
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+
+            gpsControls.getAddressToText(latitude, longitude, locationName);
+            elementsVisibility.hidePark();
+            elementsVisibility.gotLocationMode();
         }
 
 
@@ -87,48 +96,42 @@ public class MainActivity extends AppCompatActivity {
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(2000);
 
-        GPSControls gpsControls = new GPSControls(locationRequest, MainActivity.this);
-        AppStatus appStatus = new AppStatus();
-
 
         parkCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Clicked on park");
                 elementsVisibility.hidePark();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-                        if (gpsControls.isGPSEnable()) {
-
-                            LocationServices.getFusedLocationProviderClient(MainActivity.this).requestLocationUpdates(locationRequest, new LocationCallback() {
-                                @Override
-                                public void onLocationResult(@NonNull LocationResult locationResult) {
-                                    super.onLocationResult(locationResult);
-
-
-                                    LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
-                                    if (locationResult != null && locationResult.getLocations().size() > 0) {
-                                        int index = locationResult.getLocations().size() - 1;
-                                        latitude = locationResult.getLocations().get(index).getLatitude();
-                                        longitude = locationResult.getLocations().get(index).getLongitude();
-                                        gpsControls.getAddressToText(latitude, longitude, locationName);
-                                        location = new Location(latitude, longitude, MainActivity.this);
-                                        manager.setLocation(location);
-                                        elementsVisibility.gotLocationMode();
-
-
-                                    }
-                                }
-                            }, Looper.getMainLooper());
-
-                        } else {
-                            gpsControls.turnOnGPS();
-                        }
-                    } else {
-                        requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                    }
+                if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
+                    Log.d(TAG, "onClick: Wrong version");
+                    return;
                 }
+                if (!(ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+                    Log.d(TAG, "onClick: No permission");
+                    requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    return;
+                }
+                if (!gpsControls.isGPSEnable()) {
+                    Log.d(TAG, "onClick: GPS turned off");
+                    gpsControls.turnOnGPS();
+                    return;
+                }
+                LocationServices.getFusedLocationProviderClient(MainActivity.this).requestLocationUpdates(locationRequest, new LocationCallback() {
+                    @Override
+                    public void onLocationResult(@NonNull LocationResult locationResult) {
+                        super.onLocationResult(locationResult);
+                        LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
+                        if (locationResult != null && locationResult.getLocations().size() > 0) {
+                            int index = locationResult.getLocations().size() - 1;
+                            latitude = locationResult.getLocations().get(index).getLatitude();
+                            longitude = locationResult.getLocations().get(index).getLongitude();
+                            gpsControls.getAddressToText(latitude, longitude, locationName);
+                            location = new Location(latitude, longitude, MainActivity.this);
+                            manager.setLocation(location);
+                            elementsVisibility.gotLocationMode();
+                        }
+                    }
+                }, Looper.getMainLooper());
             }
         });
 
