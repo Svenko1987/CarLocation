@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.example.carlocation.controls.Btn.AppStatus;
 import com.example.carlocation.controls.GPS.GPSControls;
 import com.example.carlocation.controls.SharedPreferencesManager;
+import com.example.carlocation.controls.inteface.ElementsVisibility;
 import com.example.carlocation.model.Location;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -33,14 +34,8 @@ import com.google.android.gms.location.LocationServices;
 public class MainActivity extends AppCompatActivity {
 
 
-    private Button parkCar;
-    private Button navigate;
-    private Button locate;
-    private Button resetLocation;
-    private TextView navigateL;
-    private TextView locateL;
-    private TextView loadingL, resetL;
-    private TextView locationName;
+    private Button parkCar, navigate, locate, resetLocation;
+    private TextView navigateL, locateL, loadingL, resetL, locationName;
 
     private ProgressBar progressBar;
 
@@ -69,13 +64,13 @@ public class MainActivity extends AppCompatActivity {
         resetLocation = findViewById(R.id.resetLocationBtn);
         locate = findViewById(R.id.getLocationBtn);
         locationName = findViewById(R.id.locationET);
-
         locateL = findViewById(R.id.locateL);
         navigateL = findViewById(R.id.navigateL);
         test = findViewById(R.id.button4);
         loadingL = findViewById(R.id.loadingL);
         resetL = findViewById(R.id.resetL);
         progressBar = findViewById(R.id.progressBar);
+        ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation, navigateL, locateL, loadingL, resetL, locationName, progressBar);
 
         manager = new SharedPreferencesManager(sharedPreferences, location);
         Log.d(TAG, "onCreate: sharedPreferences created");
@@ -100,9 +95,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Clicked on park");
-                parkCar.setVisibility(View.GONE);
-                appStatus.showItemDelay(progressBar, 0);
-                appStatus.showItemDelay(loadingL, 0);
+                elementsVisibility.hidePark();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
@@ -122,18 +115,7 @@ public class MainActivity extends AppCompatActivity {
                                         gpsControls.getAddressToText(latitude, longitude, locationName);
                                         location = new Location(latitude, longitude, MainActivity.this);
                                         manager.setLocation(location);
-                                        appStatus.hideItemDelay(progressBar, 0);
-                                        appStatus.hideItemDelay(loadingL, 0);
-                                        appStatus.showItemDelay(resetL, 300);
-                                        appStatus.showItemDelay(resetLocation, 300);
-                                        resetLocation.setEnabled(true);
-                                        appStatus.showItemDelay(locationName, 300);
-                                        appStatus.showItemDelay(navigate, 300);
-                                        navigate.setEnabled(true);
-                                        appStatus.showItemDelay(navigateL, 300);
-                                        appStatus.showItemDelay(locate, 300);
-                                        locate.setEnabled(true);
-                                        appStatus.showItemDelay(locateL, 300);
+                                        elementsVisibility.gotLocationMode();
 
 
                                     }
@@ -172,18 +154,9 @@ public class MainActivity extends AppCompatActivity {
         resetLocation.setOnClickListener(view -> {
 
             Log.d(TAG, "onClick: Clicked on repark");
-            parkCar.setVisibility(View.GONE);
-            appStatus.hideItemDelay(resetLocation, 0);
-            appStatus.hideItemDelay(navigate, 0);
-            appStatus.hideItemDelay(navigateL, 0);
-            appStatus.hideItemDelay(resetL, 0);
-            appStatus.hideItemDelay(locate, 0);
-            appStatus.hideItemDelay(locateL, 0);
-            appStatus.hideItemDelay(locationName, 0);
 
 
-            appStatus.showItemDelay(progressBar, 0);
-            appStatus.showItemDelay(loadingL, 0);
+            elementsVisibility.searchingForLocation();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
@@ -202,18 +175,7 @@ public class MainActivity extends AppCompatActivity {
                                     longitude = locationResult.getLocations().get(index).getLongitude();
                                     gpsControls.getAddressToText(latitude, longitude, locationName);
                                     location = new Location(latitude, longitude, MainActivity.this);
-                                    appStatus.hideItemDelay(progressBar, 0);
-                                    appStatus.hideItemDelay(loadingL, 0);
-                                    appStatus.showItemDelay(resetL, 300);
-                                    appStatus.showItemDelay(resetLocation, 300);
-                                    resetLocation.setEnabled(true);
-                                    appStatus.showItemDelay(locationName, 300);
-                                    appStatus.showItemDelay(navigate, 300);
-                                    navigate.setEnabled(true);
-                                    appStatus.showItemDelay(navigateL, 300);
-                                    appStatus.showItemDelay(locate, 300);
-                                    locate.setEnabled(true);
-                                    appStatus.showItemDelay(locateL, 300);
+                                    elementsVisibility.gotLocationMode();
 
 
                                 }
