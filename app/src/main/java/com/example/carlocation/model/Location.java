@@ -10,6 +10,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/*
+Object Location is used for storing common information regarding current and odl positions
+ */
 public class Location {
     private double latitude,longitude;
     private String street,houseNumber,city,postal,photoURL;

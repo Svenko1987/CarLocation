@@ -9,6 +9,9 @@ import android.util.Log;
 import com.example.carlocation.model.Location;
 import com.google.gson.Gson;
 
+/*
+Saving and getting data from sharedPreferences
+ */
 public class SharedPreferencesManager {
 
     SharedPreferences sharedPreferences;

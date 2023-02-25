@@ -7,18 +7,24 @@ import android.widget.TextView;
 
 import com.example.carlocation.controls.Btn.AppStatus;
 
+/*
+Class is setting element visibility depending the current state of application.
+*/
+
 public class ElementsVisibility {
 
-    private Button parkCar, navigate, locate, resetLocation;
+    private Button parkCar, navigate, locate, resetLocation, share, copy;
     private TextView navigateL, locateL, loadingL, resetL, locationName;
     private ProgressBar progressBar;
     private AppStatus appStatus;
 
-    public ElementsVisibility(Button parkCar, Button navigate, Button locate, Button resetLocation, TextView navigateL, TextView locateL, TextView loadingL, TextView resetL, TextView locationName, ProgressBar progressBar) {
+    public ElementsVisibility(Button parkCar, Button navigate, Button locate, Button resetLocation, Button share, Button copy, TextView navigateL, TextView locateL, TextView loadingL, TextView resetL, TextView locationName, ProgressBar progressBar) {
         this.parkCar = parkCar;
         this.navigate = navigate;
         this.locate = locate;
         this.resetLocation = resetLocation;
+        this.share = share;
+        this.copy = copy;
         this.navigateL = navigateL;
         this.locateL = locateL;
         this.loadingL = loadingL;
@@ -41,6 +47,10 @@ public class ElementsVisibility {
         appStatus.showItemDelay(navigateL, 300);
         appStatus.showItemDelay(locate, 300);
         locate.setEnabled(true);
+        appStatus.showItemDelay(share, 300);
+        locate.setEnabled(true);
+        appStatus.showItemDelay(copy, 300);
+        locate.setEnabled(true);
         appStatus.showItemDelay(locateL, 300);
     }
 
@@ -49,11 +59,12 @@ public class ElementsVisibility {
         appStatus.hideItemDelay(resetLocation, 0);
         appStatus.hideItemDelay(navigate, 0);
         appStatus.hideItemDelay(navigateL, 0);
+        appStatus.hideItemDelay(share, 0);
+        appStatus.hideItemDelay(copy, 0);
         appStatus.hideItemDelay(resetL, 0);
         appStatus.hideItemDelay(locate, 0);
         appStatus.hideItemDelay(locateL, 0);
         appStatus.hideItemDelay(locationName, 0);
-
 
 
     }
@@ -66,12 +77,15 @@ public class ElementsVisibility {
         appStatus.hideItemDelay(resetL, 0);
         appStatus.hideItemDelay(locate, 0);
         appStatus.hideItemDelay(locateL, 0);
+        appStatus.hideItemDelay(share, 0);
+        appStatus.hideItemDelay(copy, 0);
         appStatus.hideItemDelay(locationName, 0);
         appStatus.showItemDelay(progressBar, 0);
         appStatus.showItemDelay(loadingL, 0);
 
     }
-    public void hidePark(){
+
+    public void hidePark() {
         parkCar.setVisibility(View.GONE);
         appStatus.showItemDelay(progressBar, 0);
         appStatus.showItemDelay(loadingL, 0);

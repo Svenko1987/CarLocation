@@ -8,6 +8,8 @@ import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
 import android.app.SharedElementCallback;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -25,6 +27,7 @@ import com.example.carlocation.controls.Btn.AppStatus;
 import com.example.carlocation.controls.GPS.GPSControls;
 import com.example.carlocation.controls.SharedPreferencesManager;
 import com.example.carlocation.controls.inteface.ElementsVisibility;
+import com.example.carlocation.controls.inteface.ShareData;
 import com.example.carlocation.model.Location;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -34,7 +37,7 @@ import com.google.android.gms.location.LocationServices;
 public class MainActivity extends AppCompatActivity {
 
 
-    private Button parkCar, navigate, locate, resetLocation;
+    private Button parkCar, navigate, locate, resetLocation, share, copy;
     private TextView navigateL, locateL, loadingL, resetL, locationName;
 
     private ProgressBar progressBar;
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     public static final String MyPREFERENCES = "CarLocation";
     public static final String value = "key";
+    ClipboardManager clipboardManager;
     private SharedPreferencesManager manager;
 
     private LocationRequest locationRequest;
@@ -63,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         navigate = findViewById(R.id.navigateBtn);
         resetLocation = findViewById(R.id.resetLocationBtn);
         locate = findViewById(R.id.getLocationBtn);
+        share = findViewById(R.id.shareBtn);
+        copy = findViewById(R.id.copyBtn);
         locationName = findViewById(R.id.locationET);
         locateL = findViewById(R.id.locateL);
         navigateL = findViewById(R.id.navigateL);
@@ -70,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
         loadingL = findViewById(R.id.loadingL);
         resetL = findViewById(R.id.resetL);
         progressBar = findViewById(R.id.progressBar);
-        ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation, navigateL, locateL, loadingL, resetL, locationName, progressBar);
 
+        ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation, share, copy, navigateL, locateL, loadingL, resetL, locationName, progressBar);
         GPSControls gpsControls = new GPSControls(locationRequest, MainActivity.this);
         AppStatus appStatus = new AppStatus();
 
@@ -89,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
             elementsVisibility.hidePark();
             elementsVisibility.gotLocationMode();
         }
+        clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
 
         locationRequest = LocationRequest.create();
@@ -121,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onLocationResult(@NonNull LocationResult locationResult) {
                         super.onLocationResult(locationResult);
                         LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
-                        if (locationResult != null && locationResult.getLocations().size() > 0) {
+                        if (locationResult.getLocations().size() > 0) {
                             int index = locationResult.getLocations().size() - 1;
                             latitude = locationResult.getLocations().get(index).getLatitude();
                             longitude = locationResult.getLocations().get(index).getLongitude();
@@ -178,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
                                     longitude = locationResult.getLocations().get(index).getLongitude();
                                     gpsControls.getAddressToText(latitude, longitude, locationName);
                                     location = new Location(latitude, longitude, MainActivity.this);
+                                    manager.setLocation(location);
                                     elementsVisibility.gotLocationMode();
 
 
@@ -193,6 +201,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+
+        });
+        share.setOnClickListener(view -> {
+            ShareData shareData = new ShareData(MainActivity.this, clipboardManager, location);
+            Log.d(TAG, "onCreate: Clicked on share");
+
+            Log.d(TAG, "onCreate: " + location.getLongitude() + " " + location.getLatitude());
+            startActivity(shareData.shareData());
+        });
+        copy.setOnClickListener(view -> {
+            ShareData shareData = new ShareData(MainActivity.this, clipboardManager, location);
+            Log.d(TAG, "onCreate: Clicked on copy");
+            shareData.copyDataToClipboard();
+            Log.d(TAG, "onCreate: " + location.getLongitude() + " " + location.getLatitude());
 
         });
 

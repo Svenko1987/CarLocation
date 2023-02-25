@@ -2,6 +2,10 @@ package com.example.carlocation.controls.Btn;
 
 import android.view.View;
 
+
+/*
+Class is used for manipulation of visibility of interface elements
+ */
 public class AppStatus implements AppStatusInterface {
 
     public AppStatus() {

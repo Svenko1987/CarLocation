@@ -8,6 +8,16 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/copyBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:alpha="0"
+        android:background="?attr/actionModeCopyDrawable"
+        app:layout_constraintStart_toEndOf="@+id/shareBtn"
+        app:layout_constraintTop_toTopOf="@+id/shareBtn" />
+
+    <Button
         android:id="@+id/parkBtn"
         android:layout_width="125dp"
         android:layout_height="125dp"
@@ -42,6 +52,16 @@
         android:contentDescription="@string/locate_your_car"
         app:layout_constraintBaseline_toBaselineOf="@+id/parkBtn"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/shareBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:alpha="0"
+        android:background="?attr/actionModeShareDrawable"
+        app:layout_constraintStart_toStartOf="@+id/parkTimer"
+        app:layout_constraintTop_toBottomOf="@+id/parkTimer" />
 
     <TextView
         android:id="@+id/navigateL"
@@ -128,8 +148,8 @@
         android:layout_height="100dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:background="@null"
         android:alpha="0"
+        android:background="@null"
         android:ems="10"
         android:inputType=""
         android:text=""
@@ -140,11 +160,11 @@
         android:id="@+id/resetLocationBtn"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:alpha="0"
-        android:clickable="false"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
+        android:alpha="0"
         android:background="@drawable/reset"
+        android:clickable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

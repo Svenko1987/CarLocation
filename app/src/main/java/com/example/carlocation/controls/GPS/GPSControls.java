@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+/*
+Class is checking status of GPS
+ */
 
 public class GPSControls {
 
