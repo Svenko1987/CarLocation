@@ -2,6 +2,7 @@ package com.example.carlocation.controls.inteface;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -13,24 +14,27 @@ Class is setting element visibility depending the current state of application.
 
 public class ElementsVisibility {
 
-    private Button parkCar, navigate, locate, resetLocation, share, copy;
+    private Button parkCar, navigate, locate, resetLocation, share, copy,timer;
     private TextView navigateL, locateL, loadingL, resetL, locationName;
+    private Chronometer chronometer;
     private ProgressBar progressBar;
     private AppStatus appStatus;
 
-    public ElementsVisibility(Button parkCar, Button navigate, Button locate, Button resetLocation, Button share, Button copy, TextView navigateL, TextView locateL, TextView loadingL, TextView resetL, TextView locationName, ProgressBar progressBar) {
+    public ElementsVisibility(Button parkCar, Button navigate, Button locate, Button resetLocation,Button timer, Button share, Button copy,Chronometer chronometer, TextView navigateL, TextView locateL, TextView loadingL, TextView resetL, TextView locationName, ProgressBar progressBar) {
         this.parkCar = parkCar;
         this.navigate = navigate;
         this.locate = locate;
         this.resetLocation = resetLocation;
         this.share = share;
         this.copy = copy;
+        this.chronometer=chronometer;
         this.navigateL = navigateL;
         this.locateL = locateL;
         this.loadingL = loadingL;
         this.resetL = resetL;
         this.locationName = locationName;
         this.progressBar = progressBar;
+        this.timer=timer;
         this.appStatus = new AppStatus();
     }
 
@@ -44,6 +48,9 @@ public class ElementsVisibility {
         appStatus.showItemDelay(locationName, 300);
         appStatus.showItemDelay(navigate, 300);
         navigate.setEnabled(true);
+        appStatus.showItemDelay(timer, 300);
+        timer.setEnabled(true);
+        appStatus.showItemDelay(chronometer, 300);
         appStatus.showItemDelay(navigateL, 300);
         appStatus.showItemDelay(locate, 300);
         locate.setEnabled(true);
@@ -59,8 +66,10 @@ public class ElementsVisibility {
         appStatus.hideItemDelay(resetLocation, 0);
         appStatus.hideItemDelay(navigate, 0);
         appStatus.hideItemDelay(navigateL, 0);
+        appStatus.hideItemDelay(timer, 0);
         appStatus.hideItemDelay(share, 0);
         appStatus.hideItemDelay(copy, 0);
+        appStatus.hideItemDelay(chronometer, 0);
         appStatus.hideItemDelay(resetL, 0);
         appStatus.hideItemDelay(locate, 0);
         appStatus.hideItemDelay(locateL, 0);
@@ -77,6 +86,8 @@ public class ElementsVisibility {
         appStatus.hideItemDelay(resetL, 0);
         appStatus.hideItemDelay(locate, 0);
         appStatus.hideItemDelay(locateL, 0);
+        appStatus.hideItemDelay(timer, 0);
+        appStatus.hideItemDelay(chronometer, 0);
         appStatus.hideItemDelay(share, 0);
         appStatus.hideItemDelay(copy, 0);
         appStatus.hideItemDelay(locationName, 0);

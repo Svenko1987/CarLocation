@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintVertical_bias="0.5" />
 
     <Button
         android:id="@+id/navigateBtn"
@@ -61,7 +61,18 @@
         android:alpha="0"
         android:background="?attr/actionModeShareDrawable"
         app:layout_constraintStart_toStartOf="@+id/parkTimer"
-        app:layout_constraintTop_toBottomOf="@+id/parkTimer" />
+        app:layout_constraintTop_toBottomOf="@+id/locationET" />
+
+    <Button
+        android:id="@+id/startTimeBtn"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:alpha="0"
+        android:background="@android:drawable/ic_lock_idle_alarm"
+        app:layout_constraintStart_toEndOf="@+id/parkTimer"
+        app:layout_constraintTop_toBottomOf="@+id/copyBtn" />
 
     <TextView
         android:id="@+id/navigateL"
@@ -118,7 +129,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintVertical_bias="0.5"
+/>
 
     <TextView
         android:id="@+id/loadingL"
@@ -131,16 +143,19 @@
         app:layout_constraintEnd_toEndOf="@+id/parkBtn"
         app:layout_constraintStart_toStartOf="@+id/parkBtn" />
 
-    <EditText
+    <Chronometer
         android:id="@+id/parkTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:alpha="0"
         android:ems="10"
         android:inputType=""
+        android:textAlignment="center"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationET" />
+        app:layout_constraintTop_toBottomOf="@+id/shareBtn" />
 
     <EditText
         android:id="@+id/locationET"

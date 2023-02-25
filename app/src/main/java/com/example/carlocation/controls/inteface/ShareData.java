@@ -26,7 +26,7 @@ public class ShareData {
     public Intent shareData() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        String shareBody = "https://maps.google.com/?ll=" + location.getLatitude() + "," + location.getLongitude();
+        String shareBody = "https://maps.google.com/?q=" + location.getLatitude() + "," + location.getLongitude();
         Log.d(TAG, "shareData: "+shareBody);
         intent.putExtra(Intent.EXTRA_SUBJECT, shareBody);
         intent.putExtra(Intent.EXTRA_TEXT, shareBody);
@@ -42,7 +42,7 @@ public class ShareData {
             return;
         }
         clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clipData = ClipData.newPlainText("text", "https://maps.google.com/?ll=" + location.getLatitude() + "," + location.getLongitude());
+        ClipData clipData = ClipData.newPlainText("text", "https://maps.google.com/?q=" + location.getLatitude() + "," + location.getLongitude());
         
         clipboardManager.setPrimaryClip(clipData);
         Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show();

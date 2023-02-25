@@ -17,9 +17,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -37,8 +39,9 @@ import com.google.android.gms.location.LocationServices;
 public class MainActivity extends AppCompatActivity {
 
 
-    private Button parkCar, navigate, locate, resetLocation, share, copy;
+    private Button parkCar, navigate, locate, resetLocation,timer, share, copy;
     private TextView navigateL, locateL, loadingL, resetL, locationName;
+    private Chronometer chronometer;
 
     private ProgressBar progressBar;
 
@@ -67,8 +70,10 @@ public class MainActivity extends AppCompatActivity {
         navigate = findViewById(R.id.navigateBtn);
         resetLocation = findViewById(R.id.resetLocationBtn);
         locate = findViewById(R.id.getLocationBtn);
+        timer=findViewById(R.id.startTimeBtn);
         share = findViewById(R.id.shareBtn);
         copy = findViewById(R.id.copyBtn);
+        chronometer=findViewById(R.id.parkTimer);
         locationName = findViewById(R.id.locationET);
         locateL = findViewById(R.id.locateL);
         navigateL = findViewById(R.id.navigateL);
@@ -77,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         resetL = findViewById(R.id.resetL);
         progressBar = findViewById(R.id.progressBar);
 
-        ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation, share, copy, navigateL, locateL, loadingL, resetL, locationName, progressBar);
+        ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation,timer, share, copy,chronometer, navigateL, locateL, loadingL, resetL, locationName, progressBar);
         GPSControls gpsControls = new GPSControls(locationRequest, MainActivity.this);
         AppStatus appStatus = new AppStatus();
 
@@ -216,6 +221,10 @@ public class MainActivity extends AppCompatActivity {
             shareData.copyDataToClipboard();
             Log.d(TAG, "onCreate: " + location.getLongitude() + " " + location.getLatitude());
 
+        });
+        timer.setOnClickListener(view -> {
+            chronometer.setBase(SystemClock.elapsedRealtime());
+            chronometer.start();
         });
 
 
