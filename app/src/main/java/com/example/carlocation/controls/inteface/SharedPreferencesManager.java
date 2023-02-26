@@ -1,4 +1,4 @@
-package com.example.carlocation.controls;
+package com.example.carlocation.controls.inteface;
 
 import static android.content.ContentValues.TAG;
 
@@ -42,7 +42,7 @@ public class SharedPreferencesManager {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("CarLocation","");
         location=gson.fromJson(json,Location.class);
-        Log.d(TAG, "getFromSharedPreferences: "+location.getLatitude()+" "+ location.getLongitude());
+        Log.d(TAG, "getFromSharedPreferences: "+location.getLatitude()+" "+ location.getLongitude()+" from :"+location.getDate());
         return location;
 
     }

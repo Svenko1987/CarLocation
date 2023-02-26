@@ -11,8 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
-import com.example.carlocation.MainActivity;
-import com.example.carlocation.controls.GPS.GPSControls;
+import com.example.carlocation.controls.logic.GPSControls;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;

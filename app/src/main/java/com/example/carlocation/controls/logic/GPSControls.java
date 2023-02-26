@@ -1,4 +1,4 @@
-package com.example.carlocation.controls.GPS;
+package com.example.carlocation.controls.logic;
 
 
 import static android.content.ContentValues.TAG;

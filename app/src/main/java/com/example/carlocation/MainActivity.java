@@ -7,9 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
-import android.app.SharedElementCallback;
 import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -26,8 +24,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.carlocation.controls.Btn.AppStatus;
-import com.example.carlocation.controls.GPS.GPSControls;
-import com.example.carlocation.controls.SharedPreferencesManager;
+import com.example.carlocation.controls.inteface.DateAndTime;
+import com.example.carlocation.controls.logic.GPSControls;
+import com.example.carlocation.controls.inteface.SharedPreferencesManager;
 import com.example.carlocation.controls.inteface.ElementsVisibility;
 import com.example.carlocation.controls.inteface.ShareData;
 import com.example.carlocation.model.Location;
@@ -35,6 +34,8 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
         ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation,timer, share, copy,chronometer, navigateL, locateL, loadingL, resetL, locationName, progressBar);
         GPSControls gpsControls = new GPSControls(locationRequest, MainActivity.this);
+        DateAndTime dateAndTime=new DateAndTime(chronometer);
         AppStatus appStatus = new AppStatus();
 
         manager = new SharedPreferencesManager(sharedPreferences, location);
@@ -98,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
             gpsControls.getAddressToText(latitude, longitude, locationName);
             elementsVisibility.hidePark();
+            //dateAndTime.startChronometerWithTime(new Date(),location.getDate());
             elementsVisibility.gotLocationMode();
         }
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
@@ -191,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
                                     gpsControls.getAddressToText(latitude, longitude, locationName);
                                     location = new Location(latitude, longitude, MainActivity.this);
                                     manager.setLocation(location);
+                                    manager.putToSharedPreferences();
                                     elementsVisibility.gotLocationMode();
 
 
@@ -223,8 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
         timer.setOnClickListener(view -> {
-            chronometer.setBase(SystemClock.elapsedRealtime());
-            chronometer.start();
+            dateAndTime.startChronometer();
         });
 
 
