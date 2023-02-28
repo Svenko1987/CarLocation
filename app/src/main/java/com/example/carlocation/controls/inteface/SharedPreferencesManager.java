@@ -6,7 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.example.carlocation.model.Location;
+import com.example.carlocation.model.ParkEvent;
 import com.google.gson.Gson;
 
 /*
@@ -15,35 +15,35 @@ Saving and getting data from sharedPreferences
 public class SharedPreferencesManager {
 
     SharedPreferences sharedPreferences;
-    Location location;
+    ParkEvent parkEvent;
 
-    public SharedPreferencesManager(SharedPreferences sharedPreferences, Location location) {
+    public SharedPreferencesManager(SharedPreferences sharedPreferences, ParkEvent parkEvent) {
 
         this.sharedPreferences = sharedPreferences;
-        this.location = location;
+        this.parkEvent = parkEvent;
     }
 
     public void putToSharedPreferences(){
         SharedPreferences.Editor editor=sharedPreferences.edit();
 
         Gson gson = new Gson();
-        String json=gson.toJson(location);
+        String json=gson.toJson(parkEvent);
         editor.putString("CarLocation",json);
         editor.commit();
-        Log.d(TAG, "putToSharedPreferences: SAVED"+location.getLatitude()+" "+ location.getLongitude());
+        Log.d(TAG, "putToSharedPreferences: SAVED"+ parkEvent.getLatitude()+" "+ parkEvent.getLongitude());
 
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLocation(ParkEvent parkEvent) {
+        this.parkEvent = parkEvent;
     }
 
-    public Location getFromSharedPreferences(){
+    public ParkEvent getFromSharedPreferences(){
         Gson gson = new Gson();
         String json = sharedPreferences.getString("CarLocation","");
-        location=gson.fromJson(json,Location.class);
-        Log.d(TAG, "getFromSharedPreferences: "+location.getLatitude()+" "+ location.getLongitude()+" from :"+location.getDate());
-        return location;
+        parkEvent =gson.fromJson(json, ParkEvent.class);
+        Log.d(TAG, "getFromSharedPreferences: "+ parkEvent.getLatitude()+" "+ parkEvent.getLongitude()+" from :"+ parkEvent.getDate()+" Time "+parkEvent.getTime());
+        return parkEvent;
 
     }
     @SuppressLint("SuspiciousIndentation")

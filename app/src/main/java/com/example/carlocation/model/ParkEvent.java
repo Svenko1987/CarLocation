@@ -6,6 +6,7 @@ import android.location.Geocoder;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -13,14 +14,14 @@ import java.util.Locale;
 /*
 Object Location is used for storing common information regarding current and odl positions
  */
-public class Location {
+public class ParkEvent {
     private double latitude,longitude;
     private String street,houseNumber,city,postal,photoURL;
     private Address address;
     private String date;
-    private Long time;
+    private long time;
 
-    public Location(double latitude, double longitude, Context context) {
+    public ParkEvent(double latitude, double longitude, Context context) {
         this.latitude = latitude;
         this.longitude = longitude;
         try {
@@ -31,7 +32,7 @@ public class Location {
         this.city=address.getFeatureName();
         this.houseNumber=address.getLocality();
         this.street=address.getThoroughfare();
-        setDate();
+        setDateAndTime();
 
 
     }
@@ -104,17 +105,19 @@ public class Location {
         return date;
     }
 
-    public void setDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        this.date = sdf.format(new Date());
+    public void setDateAndTime() {
+        DateAndTime dateAndTime=new DateAndTime();
+        this.date=dateAndTime.getDate();
+        this.time= dateAndTime.getTime();
 
     }
 
-    public Long getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(Long time) {
+    public void setTime(long time) {
+
         this.time = time;
     }
 }

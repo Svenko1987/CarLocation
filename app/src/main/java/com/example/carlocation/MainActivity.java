@@ -15,7 +15,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,23 +23,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.carlocation.controls.Btn.AppStatus;
-import com.example.carlocation.controls.inteface.DateAndTime;
+import com.example.carlocation.controls.inteface.ChronometerControls;
 import com.example.carlocation.controls.logic.GPSControls;
 import com.example.carlocation.controls.inteface.SharedPreferencesManager;
 import com.example.carlocation.controls.inteface.ElementsVisibility;
 import com.example.carlocation.controls.inteface.ShareData;
-import com.example.carlocation.model.Location;
+import com.example.carlocation.model.ParkEvent;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
-import java.util.Date;
-
 public class MainActivity extends AppCompatActivity {
 
 
-    private Button parkCar, navigate, locate, resetLocation,timer, share, copy;
+    private Button parkCar, navigate, locate, resetLocation, timer, share, copy;
     private TextView navigateL, locateL, loadingL, resetL, locationName;
     private Chronometer chronometer;
 
@@ -56,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferencesManager manager;
 
     private LocationRequest locationRequest;
-    private Location location;
+    private ParkEvent parkEvent;
 
 
     @SuppressLint("MissingInflatedId")
@@ -71,10 +68,10 @@ public class MainActivity extends AppCompatActivity {
         navigate = findViewById(R.id.navigateBtn);
         resetLocation = findViewById(R.id.resetLocationBtn);
         locate = findViewById(R.id.getLocationBtn);
-        timer=findViewById(R.id.startTimeBtn);
+        timer = findViewById(R.id.startTimeBtn);
         share = findViewById(R.id.shareBtn);
         copy = findViewById(R.id.copyBtn);
-        chronometer=findViewById(R.id.parkTimer);
+        chronometer = findViewById(R.id.parkTimer);
         locationName = findViewById(R.id.locationET);
         locateL = findViewById(R.id.locateL);
         navigateL = findViewById(R.id.navigateL);
@@ -83,24 +80,24 @@ public class MainActivity extends AppCompatActivity {
         resetL = findViewById(R.id.resetL);
         progressBar = findViewById(R.id.progressBar);
 
-        ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation,timer, share, copy,chronometer, navigateL, locateL, loadingL, resetL, locationName, progressBar);
+        ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation, timer, share, copy, chronometer, navigateL, locateL, loadingL, resetL, locationName, progressBar);
         GPSControls gpsControls = new GPSControls(locationRequest, MainActivity.this);
-        DateAndTime dateAndTime=new DateAndTime(chronometer);
+        ChronometerControls chronometerControls = new ChronometerControls(chronometer);
         AppStatus appStatus = new AppStatus();
 
-        manager = new SharedPreferencesManager(sharedPreferences, location);
+        manager = new SharedPreferencesManager(sharedPreferences, parkEvent);
         Log.d(TAG, "onCreate: sharedPreferences created");
         if (manager.IsEmpty()) {
             Log.d(TAG, "onCreate: Prazan");
         } else {
             Log.d(TAG, "onCreate: Nije prazan");
-            location = manager.getFromSharedPreferences();
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
+            parkEvent = manager.getFromSharedPreferences();
+            longitude = parkEvent.getLongitude();
+            latitude = parkEvent.getLatitude();
 
             gpsControls.getAddressToText(latitude, longitude, locationName);
             elementsVisibility.hidePark();
-            //dateAndTime.startChronometerWithTime(new Date(),location.getDate());
+            chronometerControls.startChronometerWithTime(parkEvent.getTime());
             elementsVisibility.gotLocationMode();
         }
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
@@ -116,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Clicked on park");
-                elementsVisibility.hidePark();
+
                 if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
                     Log.d(TAG, "onClick: Wrong version");
                     return;
@@ -124,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!(ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
                     Log.d(TAG, "onClick: No permission");
                     requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    elementsVisibility.dontHavaLocation();
                     return;
                 }
                 if (!gpsControls.isGPSEnable()) {
@@ -131,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     gpsControls.turnOnGPS();
                     return;
                 }
+                elementsVisibility.hidePark();
                 LocationServices.getFusedLocationProviderClient(MainActivity.this).requestLocationUpdates(locationRequest, new LocationCallback() {
                     @Override
                     public void onLocationResult(@NonNull LocationResult locationResult) {
@@ -141,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
                             latitude = locationResult.getLocations().get(index).getLatitude();
                             longitude = locationResult.getLocations().get(index).getLongitude();
                             gpsControls.getAddressToText(latitude, longitude, locationName);
-                            location = new Location(latitude, longitude, MainActivity.this);
-                            manager.setLocation(location);
+                            parkEvent = new ParkEvent(latitude, longitude, MainActivity.this);
+                            manager.setLocation(parkEvent);
                             elementsVisibility.gotLocationMode();
                         }
                     }
@@ -192,10 +191,11 @@ public class MainActivity extends AppCompatActivity {
                                     latitude = locationResult.getLocations().get(index).getLatitude();
                                     longitude = locationResult.getLocations().get(index).getLongitude();
                                     gpsControls.getAddressToText(latitude, longitude, locationName);
-                                    location = new Location(latitude, longitude, MainActivity.this);
-                                    manager.setLocation(location);
+                                    parkEvent = new ParkEvent(latitude, longitude, MainActivity.this);
+                                    manager.setLocation(parkEvent);
                                     manager.putToSharedPreferences();
                                     elementsVisibility.gotLocationMode();
+                                    chronometerControls.startChronometer();
 
 
                                 }
@@ -213,21 +213,21 @@ public class MainActivity extends AppCompatActivity {
 
         });
         share.setOnClickListener(view -> {
-            ShareData shareData = new ShareData(MainActivity.this, clipboardManager, location);
+            ShareData shareData = new ShareData(MainActivity.this, clipboardManager, parkEvent);
             Log.d(TAG, "onCreate: Clicked on share");
 
-            Log.d(TAG, "onCreate: " + location.getLongitude() + " " + location.getLatitude());
+            Log.d(TAG, "onCreate: " + parkEvent.getLongitude() + " " + parkEvent.getLatitude());
             startActivity(shareData.shareData());
         });
         copy.setOnClickListener(view -> {
-            ShareData shareData = new ShareData(MainActivity.this, clipboardManager, location);
+            ShareData shareData = new ShareData(MainActivity.this, clipboardManager, parkEvent);
             Log.d(TAG, "onCreate: Clicked on copy");
             shareData.copyDataToClipboard();
-            Log.d(TAG, "onCreate: " + location.getLongitude() + " " + location.getLatitude());
+            Log.d(TAG, "onCreate: " + parkEvent.getLongitude() + " " + parkEvent.getLatitude());
 
         });
         timer.setOnClickListener(view -> {
-            dateAndTime.startChronometer();
+            chronometerControls.startChronometer();
         });
 
 
