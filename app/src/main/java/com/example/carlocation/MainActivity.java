@@ -169,49 +169,43 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         resetLocation.setOnClickListener(view -> {
-
             Log.d(TAG, "onClick: Clicked on repark");
 
-
-            elementsVisibility.searchingForLocation();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-                    if (gpsControls.isGPSEnable()) {
-
-                        LocationServices.getFusedLocationProviderClient(MainActivity.this).requestLocationUpdates(locationRequest, new LocationCallback() {
-                            @Override
-                            public void onLocationResult(@NonNull LocationResult locationResult) {
-                                super.onLocationResult(locationResult);
-
-
-                                LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
-                                if (locationResult != null && locationResult.getLocations().size() > 0) {
-                                    int index = locationResult.getLocations().size() - 1;
-                                    latitude = locationResult.getLocations().get(index).getLatitude();
-                                    longitude = locationResult.getLocations().get(index).getLongitude();
-                                    gpsControls.getAddressToText(latitude, longitude, locationName);
-                                    parkEvent = new ParkEvent(latitude, longitude, MainActivity.this);
-                                    manager.setLocation(parkEvent);
-                                    manager.putToSharedPreferences();
-                                    elementsVisibility.gotLocationMode();
-                                    chronometerControls.startChronometer();
-
-
-                                }
-                            }
-                        }, Looper.getMainLooper());
-
-                    } else {
-                        gpsControls.turnOnGPS();
-                    }
-                } else {
-                    requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                }
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                return;
             }
 
+            if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                return;
+            }
 
+            if (!gpsControls.isGPSEnable()) {
+                gpsControls.turnOnGPS();
+                return;
+            }
+
+            elementsVisibility.searchingForLocation();
+            LocationServices.getFusedLocationProviderClient(MainActivity.this).requestLocationUpdates(locationRequest, new LocationCallback() {
+                @Override
+                public void onLocationResult(@NonNull LocationResult locationResult) {
+                    super.onLocationResult(locationResult);
+                    LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
+                    if (locationResult != null && locationResult.getLocations().size() > 0) {
+                        int index = locationResult.getLocations().size() - 1;
+                        latitude = locationResult.getLocations().get(index).getLatitude();
+                        longitude = locationResult.getLocations().get(index).getLongitude();
+                        gpsControls.getAddressToText(latitude, longitude, locationName);
+                        parkEvent = new ParkEvent(latitude, longitude, MainActivity.this);
+                        manager.setLocation(parkEvent);
+                        manager.putToSharedPreferences();
+                        elementsVisibility.gotLocationMode();
+                        chronometerControls.startChronometer();
+                    }
+                }
+            }, Looper.getMainLooper());
         });
+
         share.setOnClickListener(view -> {
             ShareData shareData = new ShareData(MainActivity.this, clipboardManager, parkEvent);
             Log.d(TAG, "onCreate: Clicked on share");
@@ -236,8 +230,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (latitude != 0.0 && longitude != 0.0)
-            manager.putToSharedPreferences();
+        if (latitude != 0.0 && longitude != 0.0) manager.putToSharedPreferences();
 
 
     }

@@ -21,14 +21,16 @@ public class ChronometerControls {
     }
 
     public long timeDifference( long oldTime){
+        Log.d(TAG, "timeDifference: " +oldTime );
         long currentTime = SystemClock.elapsedRealtime();
+        Log.d(TAG, "timeDifference: "+ currentTime);
         long timeOffset = currentTime - oldTime;
         return timeOffset;
     }
     public void startChronometerWithTime(long savedTime){
         long timeOffset=timeDifference(savedTime);
-        chronometer.setBase(500);
-        Log.d(TAG, "startChronometerWithTime: ");
+        chronometer.setBase(SystemClock.elapsedRealtime() - timeOffset);
+        Log.d(TAG, "startChronometerWithTime: " + timeOffset);
         chronometer.start();
     }
     public void startChronometer(){

@@ -1,5 +1,7 @@
 package com.example.carlocation.model;
 
+import android.os.SystemClock;
+
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -16,7 +18,7 @@ public class DateAndTime {
         return formattedDateTime;
     }
     public long getTime(){
-        long millis = System.currentTimeMillis();
+        long millis = SystemClock.elapsedRealtime();
         return millis;
     }
 
