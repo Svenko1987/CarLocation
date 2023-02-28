@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +23,7 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.carlocation.controls.Btn.AppStatus;
 import com.example.carlocation.controls.inteface.ChronometerControls;
@@ -33,6 +36,8 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -221,9 +226,17 @@ public class MainActivity extends AppCompatActivity {
 
         });
         timer.setOnClickListener(view -> {
-            chronometerControls.startChronometer();
-        });
+            int style= AlertDialog.THEME_HOLO_DARK;
+            TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,style, new TimePickerDialog.OnTimeSetListener() {
 
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                }
+            }, 0, 0, true);
+            timePickerDialog.setTitle("Select park time");
+            timePickerDialog.show();
+        });
 
     }
 
