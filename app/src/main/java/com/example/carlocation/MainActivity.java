@@ -7,9 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -17,6 +22,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +30,7 @@ import android.widget.Chronometer;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.carlocation.controls.Btn.AppStatus;
 import com.example.carlocation.controls.inteface.ChronometerControls;
@@ -31,6 +38,7 @@ import com.example.carlocation.controls.logic.GPSControls;
 import com.example.carlocation.controls.inteface.SharedPreferencesManager;
 import com.example.carlocation.controls.inteface.ElementsVisibility;
 import com.example.carlocation.controls.inteface.ShareData;
+import com.example.carlocation.controls.logic.NotificationPublisher;
 import com.example.carlocation.model.ParkEvent;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -84,6 +92,12 @@ public class MainActivity extends AppCompatActivity {
         loadingL = findViewById(R.id.loadingL);
         resetL = findViewById(R.id.resetL);
         progressBar = findViewById(R.id.progressBar);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel("notification-id", "My Notification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
 
         ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation, timer, share, copy, chronometer, navigateL, locateL, loadingL, resetL, locationName, progressBar);
         GPSControls gpsControls = new GPSControls(locationRequest, MainActivity.this);
@@ -196,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onLocationResult(@NonNull LocationResult locationResult) {
                     super.onLocationResult(locationResult);
                     LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
-                    if (locationResult != null && locationResult.getLocations().size() > 0) {
+                    if (locationResult.getLocations().size() > 0) {
                         int index = locationResult.getLocations().size() - 1;
                         latitude = locationResult.getLocations().get(index).getLatitude();
                         longitude = locationResult.getLocations().get(index).getLongitude();
@@ -210,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, Looper.getMainLooper());
         });
-
         share.setOnClickListener(view -> {
             ShareData shareData = new ShareData(MainActivity.this, clipboardManager, parkEvent);
             Log.d(TAG, "onCreate: Clicked on share");
@@ -237,8 +250,30 @@ public class MainActivity extends AppCompatActivity {
             timePickerDialog.setTitle("Select park time");
             timePickerDialog.show();
         });
+        test.setOnClickListener(view -> {
+            scheduleNotification(500);
+            Toast.makeText(this, "Notification Scheduled", Toast.LENGTH_SHORT).show();
+        });
 
     }
+    private void scheduleNotification(int delay) {
+        // Create an Intent for the BroadcastReceiver
+        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_TITLE, "My Notification");
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_CONTENT, "This is a notification");
+
+        // Create a PendingIntent for the BroadcastReceiver
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Get the current time and add the delay to set the alarm time
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+
+        // Get an instance of the AlarmManager and schedule the notification
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+    }
+
 
     @Override
     protected void onPause() {
@@ -288,16 +323,4 @@ public class MainActivity extends AppCompatActivity {
 //        });
 //    }
 
-//    private boolean isGPSEnable() {
-//        LocationManager locationManager = null;
-//        boolean isEnabled = false;
-//
-//        if (locationManager == null) {
-//            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        }
-//
-//        isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-//        return isEnabled;
-//
-//    }
 }
