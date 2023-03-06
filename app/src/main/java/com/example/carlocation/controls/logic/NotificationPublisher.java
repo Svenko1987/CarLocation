@@ -1,18 +1,18 @@
 package com.example.carlocation.controls.logic;
 
-import static android.provider.Settings.System.getString;
+
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
+import android.os.SystemClock;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -22,9 +22,12 @@ import com.example.carlocation.R;
 
 public class NotificationPublisher extends BroadcastReceiver {
     public static final String NOTIFICATION_ID = "notification-id";
-    public static final String NOTIFICATION_TITLE = "notification-title";
-    public static final String NOTIFICATION_CONTENT = "notification-content";
+    public static final String NOTIFICATION_TITLE = "CarLocation";
+    public static final String NOTIFICATION_CONTENT = "Your parking time is up";
 
+
+    public NotificationPublisher() {
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -36,24 +39,29 @@ public class NotificationPublisher extends BroadcastReceiver {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            Toast.makeText(context, "No Permission to set alarm!", Toast.LENGTH_SHORT).show();
             return;
         }
         notificationManager.notify(1, builder.build());
 
 
     }
-//    private void createNotificationChannel() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            NotificationChannel notificationChannel = new NotificationChannel("My Notification", "My Notification", NotificationManager.IMPORTANCE_DEFAULT);
-//            NotificationManager notificationManager = (NotificationManager) getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(notificationChannel);
-//        }
-//   }
+
+    public void scheduleNotification(Context context, int delay) {
+        // Create an Intent for the BroadcastReceiver
+        Intent notificationIntent = new Intent(context, NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_TITLE, "My Notification");
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_CONTENT, "This is a notification");
+
+        // Create a PendingIntent for the BroadcastReceiver
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Get the current time and add the delay to set the alarm time
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+
+        // Get an instance of the AlarmManager and schedule the notification
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
+    }
 }

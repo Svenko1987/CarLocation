@@ -244,14 +244,19 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    NotificationPublisher publisher = new NotificationPublisher();
+                    publisher.scheduleNotification(MainActivity.this, 5000);
 
+                    Log.d(TAG, "onTimeSet: "+hourOfDay + "  "+ minute);
                 }
             }, 0, 0, true);
             timePickerDialog.setTitle("Select park time");
             timePickerDialog.show();
+
         });
         test.setOnClickListener(view -> {
-            scheduleNotification(500);
+            NotificationPublisher publisher = new NotificationPublisher();
+            publisher.scheduleNotification(this,5000);
             Toast.makeText(this, "Notification Scheduled", Toast.LENGTH_SHORT).show();
         });
 
