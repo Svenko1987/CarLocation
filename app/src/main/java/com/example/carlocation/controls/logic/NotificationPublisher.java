@@ -1,6 +1,7 @@
 package com.example.carlocation.controls.logic;
 
 
+import static android.content.ContentValues.TAG;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.Manifest;
@@ -12,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.SystemClock;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -47,7 +49,7 @@ public class NotificationPublisher extends BroadcastReceiver {
 
     }
 
-    public void scheduleNotification(Context context, int delay) {
+    public void scheduleNotification(Context context, long delay) {
         // Create an Intent for the BroadcastReceiver
         Intent notificationIntent = new Intent(context, NotificationPublisher.class);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
@@ -59,6 +61,7 @@ public class NotificationPublisher extends BroadcastReceiver {
 
         // Get the current time and add the delay to set the alarm time
         long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        Log.d(TAG, "scheduleNotification: "+ futureInMillis);
 
         // Get an instance of the AlarmManager and schedule the notification
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

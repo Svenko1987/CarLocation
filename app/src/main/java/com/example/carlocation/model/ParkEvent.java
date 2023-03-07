@@ -20,6 +20,7 @@ public class ParkEvent {
     private Address address;
     private String date;
     private long time;
+    Car  car;
 
     public ParkEvent(double latitude, double longitude, Context context) {
         this.latitude = latitude;
@@ -42,6 +43,14 @@ public class ParkEvent {
         List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 2);
         address=addresses.get(0);
         return address;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
     }
 
     public double getLatitude() {

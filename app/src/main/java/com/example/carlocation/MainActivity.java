@@ -245,9 +245,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     NotificationPublisher publisher = new NotificationPublisher();
-                    publisher.scheduleNotification(MainActivity.this, 5000);
+                    long milliseconds = (hourOfDay * 60 * 60 * 1000) + (minute * 60 * 1000);
+                    publisher.scheduleNotification(MainActivity.this, milliseconds);
 
-                    Log.d(TAG, "onTimeSet: "+hourOfDay + "  "+ minute);
+                    Log.d(TAG, "onTimeSet: "+milliseconds);
                 }
             }, 0, 0, true);
             timePickerDialog.setTitle("Select park time");
