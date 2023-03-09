@@ -35,7 +35,7 @@ import android.widget.Toast;
 import com.example.carlocation.controls.Btn.AppStatus;
 import com.example.carlocation.controls.inteface.ChronometerControls;
 import com.example.carlocation.controls.logic.GPSControls;
-import com.example.carlocation.controls.inteface.SharedPreferencesManager;
+import com.example.carlocation.controls.logic.SharedPreferencesManager;
 import com.example.carlocation.controls.inteface.ElementsVisibility;
 import com.example.carlocation.controls.inteface.ShareData;
 import com.example.carlocation.controls.logic.NotificationPublisher;
@@ -44,8 +44,6 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 

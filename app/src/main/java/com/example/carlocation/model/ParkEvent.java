@@ -17,6 +17,8 @@ Object Location is used for storing common information regarding current and odl
 public class ParkEvent {
     private double latitude,longitude;
     private String street,houseNumber,city,postal,photoURL;
+
+    private String note;
     private Address address;
     private String date;
     private long time;
@@ -43,6 +45,14 @@ public class ParkEvent {
         List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 2);
         address=addresses.get(0);
         return address;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public Car getCar() {
