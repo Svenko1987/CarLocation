@@ -14,19 +14,21 @@ Class is setting element visibility depending the current state of application.
 
 public class ElementsVisibility {
 
-    private Button parkCar, navigate, locate, resetLocation, share, copy,timer;
+    private Button parkCar, navigate, locate, resetLocation, share, copy,timer,save,history;
     private TextView navigateL, locateL, loadingL, resetL, locationName;
     private Chronometer chronometer;
     private ProgressBar progressBar;
     private AppStatus appStatus;
 
-    public ElementsVisibility(Button parkCar, Button navigate, Button locate, Button resetLocation,Button timer, Button share, Button copy,Chronometer chronometer, TextView navigateL, TextView locateL, TextView loadingL, TextView resetL, TextView locationName, ProgressBar progressBar) {
+    public ElementsVisibility(Button parkCar, Button navigate, Button locate, Button resetLocation,Button timer, Button share, Button copy,Button save, Button history, Chronometer chronometer, TextView navigateL, TextView locateL, TextView loadingL, TextView resetL, TextView locationName, ProgressBar progressBar) {
         this.parkCar = parkCar;
         this.navigate = navigate;
         this.locate = locate;
         this.resetLocation = resetLocation;
         this.share = share;
         this.copy = copy;
+        this.save=save;
+        this.history=history;
         this.chronometer=chronometer;
         this.navigateL = navigateL;
         this.locateL = locateL;
@@ -59,6 +61,10 @@ public class ElementsVisibility {
         appStatus.showItemDelay(copy, 300);
         locate.setEnabled(true);
         appStatus.showItemDelay(locateL, 300);
+        appStatus.showItemDelay(save,300);
+        save.setEnabled(true);
+        appStatus.showItemDelay(history,300);
+        history.setEnabled(true);
     }
 
     public void dontHavaLocation() {
@@ -90,6 +96,8 @@ public class ElementsVisibility {
         appStatus.hideItemDelay(chronometer, 0);
         appStatus.hideItemDelay(share, 0);
         appStatus.hideItemDelay(copy, 0);
+        appStatus.hideItemDelay(save,0);
+        appStatus.hideItemDelay(history,0);
         appStatus.hideItemDelay(locationName, 0);
         appStatus.showItemDelay(progressBar, 0);
         appStatus.showItemDelay(loadingL, 0);

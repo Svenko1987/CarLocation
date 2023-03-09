@@ -52,7 +52,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
 
-    private Button parkCar, navigate, locate, resetLocation, timer, share, copy;
+    private Button parkCar, navigate, locate, resetLocation, timer, share, copy, save, history;
     private TextView navigateL, locateL, loadingL, resetL, locationName;
     private Chronometer chronometer;
 
@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
         navigateL = findViewById(R.id.navigateL);
         test = findViewById(R.id.button4);
         loadingL = findViewById(R.id.loadingL);
+        save = findViewById(R.id.saveLocationBtn);
+        history = findViewById(R.id.historyBtn);
         resetL = findViewById(R.id.resetL);
         progressBar = findViewById(R.id.progressBar);
 
@@ -102,15 +104,15 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
-        ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation, timer, share, copy, chronometer, navigateL, locateL, loadingL, resetL, locationName, progressBar);
+        ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation, timer, share, copy,save, history, chronometer, navigateL, locateL, loadingL, resetL, locationName, progressBar);
         GPSControls gpsControls = new GPSControls(locationRequest, MainActivity.this);
         ChronometerControls chronometerControls = new ChronometerControls(chronometer);
         AppStatus appStatus = new AppStatus();
-        ParkEventsListCRUD crud= new ParkEventsListCRUD(MainActivity.this);
-        parkEventsList=new ParkEventsList(crud.loadList());
-        Log.d(TAG, "LISTA: "+parkEventsList.toString());
-        ParkEvent testpark=parkEventsList.read(1);
-//        Log.d(TAG, "Povuceno iz liste: "+ testpark.getDate());
+        ParkEventsListCRUD crud = new ParkEventsListCRUD(MainActivity.this);
+        parkEventsList = new ParkEventsList(crud.loadList());
+        Log.d(TAG, "LISTA: " + parkEventsList.toString());
+        ParkEvent testpark = parkEventsList.read(1);
+        Log.d(TAG, "Povuceno iz liste: " + testpark.getDate());
 
         manager = new SharedPreferencesManager(sharedPreferences, parkEvent);
         Log.d(TAG, "onCreate: sharedPreferences created");
@@ -251,8 +253,8 @@ public class MainActivity extends AppCompatActivity {
 
         });
         timer.setOnClickListener(view -> {
-            int style= AlertDialog.THEME_HOLO_DARK;
-            TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,style, new TimePickerDialog.OnTimeSetListener() {
+            int style = AlertDialog.THEME_HOLO_DARK;
+            TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this, style, new TimePickerDialog.OnTimeSetListener() {
 
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -260,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
                     long milliseconds = (hourOfDay * 60 * 60 * 1000) + (minute * 60 * 1000);
                     publisher.scheduleNotification(MainActivity.this, milliseconds);
 
-                    Log.d(TAG, "onTimeSet: "+milliseconds);
+                    Log.d(TAG, "onTimeSet: " + milliseconds);
                 }
             }, 0, 0, true);
             timePickerDialog.setTitle("Select park time");
@@ -269,11 +271,12 @@ public class MainActivity extends AppCompatActivity {
         });
         test.setOnClickListener(view -> {
             NotificationPublisher publisher = new NotificationPublisher();
-            publisher.scheduleNotification(this,5000);
+            publisher.scheduleNotification(this, 5000);
             Toast.makeText(this, "Notification Scheduled", Toast.LENGTH_SHORT).show();
         });
 
     }
+
     private void scheduleNotification(int delay) {
         // Create an Intent for the BroadcastReceiver
         Intent notificationIntent = new Intent(this, NotificationPublisher.class);
