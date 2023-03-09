@@ -44,9 +44,10 @@ public class ParkEventsListCRUD {
                 sb.append(line);
             }
             String json = sb.toString();
+            Log.d(TAG, "loadList: LIST LOADED");
             return gson.fromJson(json, new ArrayList<ParkEvent>().getClass());
         } catch (IOException e) {
-            Log.e(TAG, "Error loading list from internal storage", e);
+            //Log.e(TAG, "Error loading list from internal storage", e);
             return new ArrayList<>();
         }
     }
@@ -56,6 +57,7 @@ public class ParkEventsListCRUD {
     }
 
     public boolean updateList(ArrayList<ParkEvent> myList) {
+        Log.d(TAG, "updateList: List Updated");
         return saveList(myList);
     }
 }

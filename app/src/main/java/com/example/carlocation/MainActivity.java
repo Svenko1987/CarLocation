@@ -35,15 +35,19 @@ import android.widget.Toast;
 import com.example.carlocation.controls.Btn.AppStatus;
 import com.example.carlocation.controls.inteface.ChronometerControls;
 import com.example.carlocation.controls.logic.GPSControls;
+import com.example.carlocation.controls.logic.ParkEventsListCRUD;
 import com.example.carlocation.controls.logic.SharedPreferencesManager;
 import com.example.carlocation.controls.inteface.ElementsVisibility;
 import com.example.carlocation.controls.inteface.ShareData;
 import com.example.carlocation.controls.logic.NotificationPublisher;
 import com.example.carlocation.model.ParkEvent;
+import com.example.carlocation.model.ParkEventsList;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     private LocationRequest locationRequest;
     private ParkEvent parkEvent;
+    private ParkEventsList parkEventsList;
 
 
     @SuppressLint("MissingInflatedId")
@@ -101,6 +106,11 @@ public class MainActivity extends AppCompatActivity {
         GPSControls gpsControls = new GPSControls(locationRequest, MainActivity.this);
         ChronometerControls chronometerControls = new ChronometerControls(chronometer);
         AppStatus appStatus = new AppStatus();
+        ParkEventsListCRUD crud= new ParkEventsListCRUD(MainActivity.this);
+        parkEventsList=new ParkEventsList(crud.loadList());
+        Log.d(TAG, "LISTA: "+parkEventsList.toString());
+        ParkEvent testpark=parkEventsList.read(1);
+//        Log.d(TAG, "Povuceno iz liste: "+ testpark.getDate());
 
         manager = new SharedPreferencesManager(sharedPreferences, parkEvent);
         Log.d(TAG, "onCreate: sharedPreferences created");
@@ -118,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
             elementsVisibility.gotLocationMode();
         }
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -158,7 +167,10 @@ public class MainActivity extends AppCompatActivity {
                             longitude = locationResult.getLocations().get(index).getLongitude();
                             gpsControls.getAddressToText(latitude, longitude, locationName);
                             parkEvent = new ParkEvent(latitude, longitude, MainActivity.this);
+                            parkEventsList.create(parkEvent);
+                            crud.updateList(parkEventsList.getMyList());
                             manager.setLocation(parkEvent);
+                            manager.putToSharedPreferences();
                             elementsVisibility.gotLocationMode();
                         }
                     }
@@ -214,6 +226,8 @@ public class MainActivity extends AppCompatActivity {
                         longitude = locationResult.getLocations().get(index).getLongitude();
                         gpsControls.getAddressToText(latitude, longitude, locationName);
                         parkEvent = new ParkEvent(latitude, longitude, MainActivity.this);
+                        parkEventsList.create(parkEvent);
+                        crud.updateList(parkEventsList.getMyList());
                         manager.setLocation(parkEvent);
                         manager.putToSharedPreferences();
                         elementsVisibility.gotLocationMode();

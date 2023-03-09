@@ -1,5 +1,11 @@
 package com.example.carlocation.model;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 public class ParkEventsList {
@@ -16,7 +22,11 @@ public class ParkEventsList {
 
     public ParkEvent read(int index) {
         if (index >= 0 && index < myList.size()) {
-            return myList.get(index);
+            Gson gson = new Gson();
+            String json = gson.toJson(myList.get(index));
+            ParkEvent parkEvent = gson.fromJson(json, ParkEvent.class);
+            Log.d(TAG, "read: RETURNED"+ parkEvent.getDate());
+            return parkEvent;
         } else {
             return null;
         }
@@ -46,5 +56,12 @@ public class ParkEventsList {
 
     public void setMyList(ArrayList<ParkEvent> myList) {
         this.myList = myList;
+    }
+
+    @Override
+    public String toString() {
+        return "ParkEventsList{" +
+                "myList=" + myList +
+                '}';
     }
 }

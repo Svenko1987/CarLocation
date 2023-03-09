@@ -15,35 +15,36 @@ import java.util.Locale;
 Object Location is used for storing common information regarding current and odl positions
  */
 public class ParkEvent {
-    private double latitude,longitude;
-    private String street,houseNumber,city,postal,photoURL;
+    private double latitude, longitude;
+    private String street, houseNumber, city, postal, photoURL;
 
     private String note;
     private Address address;
     private String date;
     private long time;
-    Car  car;
+    Car car;
 
     public ParkEvent(double latitude, double longitude, Context context) {
         this.latitude = latitude;
         this.longitude = longitude;
         try {
-            this.address= (Address) setAddress(latitude,longitude,context);
+            this.address = (Address) setAddress(latitude, longitude, context);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        this.city=address.getFeatureName();
-        this.houseNumber=address.getLocality();
-        this.street=address.getThoroughfare();
+        this.city = address.getLocality();
+        this.houseNumber = address.getFeatureName();
+        this.street = address.getThoroughfare();
         setDateAndTime();
 
 
     }
+
     public Address setAddress(double latitude, double longitude, Context context) throws IOException {
         Address address = null;
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 2);
-        address=addresses.get(0);
+        address = addresses.get(0);
         return address;
     }
 
@@ -125,9 +126,9 @@ public class ParkEvent {
     }
 
     public void setDateAndTime() {
-        DateAndTime dateAndTime=new DateAndTime();
-        this.date=dateAndTime.getDate();
-        this.time= dateAndTime.getTime();
+        DateAndTime dateAndTime = new DateAndTime();
+        this.date = dateAndTime.getDate();
+        this.time = dateAndTime.getTime();
 
     }
 
