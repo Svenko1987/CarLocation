@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.InetAddresses;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 import com.example.carlocation.controls.Btn.AppStatus;
 import com.example.carlocation.controls.inteface.ChronometerControls;
 import com.example.carlocation.controls.inteface.HistoryActivity;
+import com.example.carlocation.controls.inteface.SavedActivity;
 import com.example.carlocation.controls.logic.GPSControls;
 import com.example.carlocation.controls.logic.ParkEventsListCRUD;
 import com.example.carlocation.controls.logic.SharedPreferencesManager;
@@ -241,6 +243,10 @@ public class MainActivity extends AppCompatActivity {
         });
         history.setOnClickListener(view -> {
             Intent intent= new Intent(this, HistoryActivity.class);
+            startActivity(intent);
+        });
+        save.setOnClickListener(view -> {
+            Intent intent=new Intent(this, SavedActivity.class);
             startActivity(intent);
         });
         share.setOnClickListener(view -> {
