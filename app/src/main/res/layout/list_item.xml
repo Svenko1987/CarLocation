@@ -9,7 +9,7 @@
         android:id="@+id/noteLB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:text="Note"
         app:layout_constraintStart_toStartOf="@+id/adressLb"
         app:layout_constraintTop_toBottomOf="@+id/dateTimeLb" />
@@ -28,10 +28,10 @@
         android:id="@+id/dateTimeLb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:text="Date"
         app:layout_constraintStart_toStartOf="@+id/adressLb"
-        app:layout_constraintTop_toBottomOf="@+id/adressLb" />
+        app:layout_constraintTop_toBottomOf="@+id/adressTV" />
 
     <TextView
         android:id="@+id/adressLb"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="10dp"
-        android:text="Adress"
+        android:text="Address"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,7 +73,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/house" />
 
     <TextView
         android:id="@+id/noteTV"

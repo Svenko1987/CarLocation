@@ -247,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
         });
         save.setOnClickListener(view -> {
             Intent intent=new Intent(this, SavedActivity.class);
+
             startActivity(intent);
         });
         share.setOnClickListener(view -> {

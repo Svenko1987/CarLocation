@@ -64,4 +64,5 @@ public class ParkEventsList {
                 "myList=" + myList +
                 '}';
     }
+
 }
