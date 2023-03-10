@@ -1,5 +1,6 @@
 package com.example.carlocation.controls.inteface;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -24,23 +25,25 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
 
         public MyViewHolder(final View view) {
             super(view);
-            this.nameText = view.findViewById(R.id.textView2);
+            this.nameText = view.findViewById(R.id.adressTV);
         }
     }
 
     @NonNull
     @Override
     public recyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item,parent,false);
+        return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull recyclerAdapter.MyViewHolder holder, int position) {
-
+        String date= parkEvents.get(position).getDate();
+        holder.nameText.setText(date);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return parkEvents.size();
     }
 }

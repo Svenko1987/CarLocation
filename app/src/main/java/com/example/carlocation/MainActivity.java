@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.example.carlocation.controls.Btn.AppStatus;
 import com.example.carlocation.controls.inteface.ChronometerControls;
+import com.example.carlocation.controls.inteface.HistoryActivity;
 import com.example.carlocation.controls.logic.GPSControls;
 import com.example.carlocation.controls.logic.ParkEventsListCRUD;
 import com.example.carlocation.controls.logic.SharedPreferencesManager;
@@ -237,6 +238,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }, Looper.getMainLooper());
+        });
+        history.setOnClickListener(view -> {
+            Intent intent= new Intent(this, HistoryActivity.class);
+            startActivity(intent);
         });
         share.setOnClickListener(view -> {
             ShareData shareData = new ShareData(MainActivity.this, clipboardManager, parkEvent);
