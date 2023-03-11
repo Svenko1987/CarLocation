@@ -94,10 +94,10 @@ public class GPSControls {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 2);
-            String city = addresses.get(0).getFeatureName();
-            String houseNumber = addresses.get(0).getLocality();
+            String city = addresses.get(0).getLocality();
+            String houseNumber = addresses.get(0).getFeatureName();
             String street = addresses.get(0).getThoroughfare();
-            textView.setText(city + " " + street + " " + houseNumber);
+            textView.setText("Current location: \n"+street + " " + houseNumber+", "+city);
             Log.d(TAG, "getAddress: " + city + "  " + houseNumber + "  " + street);
         } catch (IOException e) {
             throw new RuntimeException(e);
