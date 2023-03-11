@@ -5,17 +5,21 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/copyBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:alpha="0"
-        android:background="?attr/actionModeCopyDrawable"
-        app:layout_constraintStart_toEndOf="@+id/shareBtn"
-        app:layout_constraintTop_toTopOf="@+id/shareBtn" />
+        android:background="@drawable/round_button"
+        android:backgroundTint="@color/white"
+        android:text="copy"
+        app:layout_constraintBaseline_toBaselineOf="@+id/shareBtn"
+        app:layout_constraintEnd_toEndOf="@+id/historyBtn"
+        app:layout_constraintStart_toEndOf="@+id/shareBtn" />
 
     <Button
         android:id="@+id/parkBtn"
@@ -27,55 +31,66 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.39" />
 
     <Button
         android:id="@+id/navigateBtn"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="32dp"
         android:alpha="0"
         android:background="@drawable/navigate"
         android:clickable="false"
         android:contentDescription="@string/navigate_to_your_car"
         app:layout_constraintBaseline_toBaselineOf="@+id/parkBtn"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/getLocationBtn" />
 
     <Button
         android:id="@+id/getLocationBtn"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:layout_marginEnd="32dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:alpha="0"
         android:background="@drawable/location"
         android:clickable="false"
         android:contentDescription="@string/locate_your_car"
-        app:layout_constraintBaseline_toBaselineOf="@+id/parkBtn"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/navigateBtn" />
 
     <Button
         android:id="@+id/shareBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:alpha="0"
-        android:background="?attr/actionModeShareDrawable"
-        app:layout_constraintStart_toStartOf="@+id/parkTimer"
-        app:layout_constraintTop_toBottomOf="@+id/locationET" />
+        android:background="@drawable/round_button"
+        android:text="Share"
+        app:layout_constraintStart_toStartOf="@+id/historyBtn"
+        app:layout_constraintTop_toBottomOf="@+id/historyBtn" />
 
     <Button
         android:id="@+id/startTimeBtn"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:alpha="0"
         android:background="@android:drawable/ic_lock_idle_alarm"
-        app:layout_constraintStart_toEndOf="@+id/parkTimer"
-        app:layout_constraintTop_toBottomOf="@+id/copyBtn" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button4" />
 
     <TextView
         android:id="@+id/navigateL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:text="Navigate to car"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/navigateBtn"
+        app:layout_constraintStart_toStartOf="@+id/navigateBtn"
+        app:layout_constraintTop_toBottomOf="@+id/navigateBtn" />
+
+    <TextView
+        android:id="@+id/navigateL2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0"
@@ -129,8 +144,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-/>
+        app:layout_constraintVertical_bias="0.39" />
 
     <TextView
         android:id="@+id/loadingL"
@@ -145,61 +159,80 @@
 
     <Chronometer
         android:id="@+id/parkTimer"
-        android:layout_width="125dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
         android:alpha="0"
         android:ems="10"
         android:inputType=""
         android:textAlignment="center"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shareBtn" />
+        android:textColor="@color/darkBlue"
+        android:textSize="70sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/parkBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/locationET"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:alpha="0"
         android:background="@null"
         android:ems="10"
         android:inputType=""
         android:text=""
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/darkBlue"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/saveLocationBtn"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/resetLocationBtn"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="32dp"
         android:alpha="0"
         android:background="@drawable/reset"
         android:clickable="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/navigateBtn"
+        app:layout_constraintStart_toEndOf="@+id/progressBar" />
 
     <Button
         android:id="@+id/saveLocationBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/long_round_button"
         android:text="Save Location"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/navigateL" />
+        app:layout_constraintTop_toBottomOf="@+id/parkBtn" />
 
     <Button
         android:id="@+id/historyBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/long_round_button"
         android:text="History"
-        app:layout_constraintBaseline_toBaselineOf="@+id/saveLocationBtn"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveLocationBtn" />
+
+    <TextView
+        android:id="@+id/chronometerL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-20dp"
+        android:text="Time elapsed:"
+        android:textColor="@color/darkBlue"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/parkTimer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

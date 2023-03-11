@@ -1,8 +1,10 @@
 package com.example.carlocation.controls.inteface;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,11 +25,13 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         private TextView addressText;
         private TextView dateAndTime;
         private TextView note;
+        private ImageView imageView;
 
         public MyViewHolder(final View view) {
             super(view);
             this.addressText = view.findViewById(R.id.adressTV);
             this.dateAndTime = view.findViewById(R.id.dateTimeTV);
+            this.imageView = view.findViewById(R.id.imageView);
         }
     }
 
@@ -44,6 +48,9 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         String address= parkEvents.read(position).getStreet().concat(", ").concat(parkEvents.read(position).getHouseNumber()).concat(", ").concat(parkEvents.read(position).getCity());
         holder.addressText.setText(address);
         holder.dateAndTime.setText(date);
+        if(position==1){
+            holder.imageView.setImageDrawable(Drawable.createFromPath("drawable/car.png"));
+        }
     }
 
     @Override
