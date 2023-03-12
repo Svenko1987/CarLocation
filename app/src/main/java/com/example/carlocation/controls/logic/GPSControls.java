@@ -97,7 +97,7 @@ public class GPSControls {
             String city = addresses.get(0).getLocality();
             String houseNumber = addresses.get(0).getFeatureName();
             String street = addresses.get(0).getThoroughfare();
-            textView.setText("Current location: \n"+street + " " + houseNumber+", "+city);
+            textView.setText(street + " " + houseNumber+", "+city);
             Log.d(TAG, "getAddress: " + city + "  " + houseNumber + "  " + street);
         } catch (IOException e) {
             throw new RuntimeException(e);

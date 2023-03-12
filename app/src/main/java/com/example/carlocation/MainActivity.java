@@ -18,7 +18,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.InetAddresses;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,14 +33,14 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.carlocation.controls.Btn.AppStatus;
-import com.example.carlocation.controls.inteface.ChronometerControls;
-import com.example.carlocation.controls.inteface.HistoryActivity;
-import com.example.carlocation.controls.inteface.SavedActivity;
+import com.example.carlocation.inteface.ChronometerControls;
+import com.example.carlocation.inteface.HistoryActivity;
+import com.example.carlocation.inteface.SavedActivity;
 import com.example.carlocation.controls.logic.GPSControls;
 import com.example.carlocation.controls.logic.ParkEventsListCRUD;
 import com.example.carlocation.controls.logic.SharedPreferencesManager;
-import com.example.carlocation.controls.inteface.ElementsVisibility;
-import com.example.carlocation.controls.inteface.ShareData;
+import com.example.carlocation.inteface.ElementsVisibility;
+import com.example.carlocation.inteface.ShareData;
 import com.example.carlocation.controls.logic.NotificationPublisher;
 import com.example.carlocation.model.ParkEvent;
 import com.example.carlocation.model.ParkEventsList;
@@ -49,8 +48,6 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 

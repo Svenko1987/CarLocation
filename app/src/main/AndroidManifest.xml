@@ -18,21 +18,24 @@
         android:theme="@style/Theme.CarLocation"
         tools:targetApi="31">
         <activity
+            android:name=".inteface.VehicleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".inteface.SaveLocationActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait">
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controls.inteface.SavedActivity"></activity>
-        <activity android:name=".controls.inteface.HistoryActivity"></activity>
-
+        <activity android:name=".inteface.SavedActivity" />
+        <activity android:name=".inteface.HistoryActivity" />
 
         <receiver android:name=".controls.logic.NotificationPublisher" />
     </application>

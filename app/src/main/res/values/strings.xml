@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">carLocation</string>
-    <string name="locate_your_car">Locate your car</string>
-    <string name="navigate_to_your_car">Navigate to your car</string>
-    <string name="park_your_car">Park your car</string>
+    <string name="locate_your_car">Locate your vehlicle</string>
+    <string name="navigate_to_your_car">Navigate to your vehlicle</string>
+    <string name="park_your_car">Park your vehlicle</string>
     <string name="title_activity_history2">HistoryActivity2</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -14,4 +14,6 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="copy">copy</string>
     <string name="share">Share</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,6 +1,6 @@
 package com.example.carlocation.model;
 
-public class Car {
+public class Vehlicle {
 
     String name;
     String licencePlate;
@@ -9,7 +9,7 @@ public class Car {
     String firstRegistration;
     String color;
 
-    public Car(String name, String licencePlate, String color) {
+    public Vehlicle(String name, String licencePlate, String color) {
         this.name = name;
         this.licencePlate = licencePlate;
         this.color = color;

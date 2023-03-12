@@ -1,4 +1,4 @@
-package com.example.carlocation.controls.inteface;
+package com.example.carlocation.inteface;
 
 import android.view.View;
 import android.widget.Button;

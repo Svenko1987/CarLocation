@@ -5,9 +5,6 @@ import android.location.Address;
 import android.location.Geocoder;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,7 +19,7 @@ public class ParkEvent {
     private Address address;
     private String date;
     private long time;
-    Car car;
+    Vehlicle vehlicle;
 
     public ParkEvent(double latitude, double longitude, Context context) {
         this.latitude = latitude;
@@ -56,12 +53,12 @@ public class ParkEvent {
         this.note = note;
     }
 
-    public Car getCar() {
-        return car;
+    public Vehlicle getCar() {
+        return vehlicle;
     }
 
-    public void setCar(Car car) {
-        this.car = car;
+    public void setCar(Vehlicle vehlicle) {
+        this.vehlicle = vehlicle;
     }
 
     public double getLatitude() {
