@@ -1,18 +1,27 @@
 package com.example.carlocation.model;
 
-public class Vehlicle {
+public class Vehicle {
 
-    String name;
-    String licencePlate;
-    String manufacturer;
-    String type;
-    String firstRegistration;
-    String color;
+    private String name;
+    private String licencePlate;
+    private String manufacturer;
+    private  String type;
+    private String firstRegistration;
+    private String note;
+    private String color;
 
-    public Vehlicle(String name, String licencePlate, String color) {
+    public Vehicle(String name, String licencePlate, String color) {
         this.name = name;
         this.licencePlate = licencePlate;
         this.color = color;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public String getName() {

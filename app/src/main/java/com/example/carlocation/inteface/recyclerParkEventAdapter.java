@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.carlocation.R;
 import com.example.carlocation.model.ParkEventsList;
 
-public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyViewHolder> {
+public class recyclerParkEventAdapter extends RecyclerView.Adapter<recyclerParkEventAdapter.MyViewHolder> {
 
     private ParkEventsList parkEvents;
 
-    public recyclerAdapter(ParkEventsList parkEvents) {
+    public recyclerParkEventAdapter(ParkEventsList parkEvents) {
         this.parkEvents = parkEvents;
     }
 
@@ -37,18 +37,18 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
 
     @NonNull
     @Override
-    public recyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public recyclerParkEventAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull recyclerAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull recyclerParkEventAdapter.MyViewHolder holder, int position) {
         String date = parkEvents.read(position).getDate();
         String address= parkEvents.read(position).getStreet().concat(" ").concat(parkEvents.read(position).getHouseNumber()).concat("\n").concat(parkEvents.read(position).getCity());
         holder.addressText.setText(address);
         holder.dateAndTime.setText(date);
-        if(position==1){
+        if(position==3){
             holder.imageView.setImageDrawable(Drawable.createFromPath("drawable/car.png"));
         }
     }

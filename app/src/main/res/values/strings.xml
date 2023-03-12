@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">carLocation</string>
-    <string name="locate_your_car">Locate your vehlicle</string>
-    <string name="navigate_to_your_car">Navigate to your vehlicle</string>
-    <string name="park_your_car">Park your vehlicle</string>
+    <string name="locate_your_car">Locate your vehicle</string>
+    <string name="navigate_to_your_car">Navigate to your vehicle</string>
+    <string name="park_your_car">Park your vehicle</string>
     <string name="title_activity_history2">HistoryActivity2</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

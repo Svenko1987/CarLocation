@@ -37,7 +37,7 @@ import com.example.carlocation.inteface.ChronometerControls;
 import com.example.carlocation.inteface.HistoryActivity;
 import com.example.carlocation.inteface.SavedActivity;
 import com.example.carlocation.controls.logic.GPSControls;
-import com.example.carlocation.controls.logic.ParkEventsListCRUD;
+import com.example.carlocation.controls.logic.ListCRUD;
 import com.example.carlocation.controls.logic.SharedPreferencesManager;
 import com.example.carlocation.inteface.ElementsVisibility;
 import com.example.carlocation.inteface.ShareData;
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         GPSControls gpsControls = new GPSControls(locationRequest, MainActivity.this);
         ChronometerControls chronometerControls = new ChronometerControls(chronometer);
         AppStatus appStatus = new AppStatus();
-        ParkEventsListCRUD crud = new ParkEventsListCRUD(MainActivity.this);
+        ListCRUD crud = new ListCRUD(MainActivity.this,"myList.json");
         parkEventsList = new ParkEventsList(crud.loadList());
         Log.d(TAG, "LISTA: " + parkEventsList.toString());
         ParkEvent testpark = parkEventsList.read(1);

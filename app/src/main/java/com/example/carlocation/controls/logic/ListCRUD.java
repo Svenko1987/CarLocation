@@ -13,14 +13,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class ParkEventsListCRUD {
-    private static final String TAG = ParkEventsListCRUD.class.getSimpleName();
-    private static final String FILE_NAME = "myList.json";
+public class ListCRUD {
+    private static final String TAG = ListCRUD.class.getSimpleName();
+    private String FILE_NAME;
     private Gson gson;
     private Context context;
 
-    public ParkEventsListCRUD(Context context) {
+    public ListCRUD(Context context, String fileName) {
         this.context = context.getApplicationContext();
+        this.FILE_NAME=fileName;
         gson = new Gson();
     }
 

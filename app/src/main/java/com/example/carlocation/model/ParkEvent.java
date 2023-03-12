@@ -19,7 +19,7 @@ public class ParkEvent {
     private Address address;
     private String date;
     private long time;
-    Vehlicle vehlicle;
+    Vehicle vehicle;
 
     public ParkEvent(double latitude, double longitude, Context context) {
         this.latitude = latitude;
@@ -53,12 +53,12 @@ public class ParkEvent {
         this.note = note;
     }
 
-    public Vehlicle getCar() {
-        return vehlicle;
+    public Vehicle getCar() {
+        return vehicle;
     }
 
-    public void setCar(Vehlicle vehlicle) {
-        this.vehlicle = vehlicle;
+    public void setCar(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
     public double getLatitude() {

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.carlocation.MainActivity;
 import com.example.carlocation.R;
-import com.example.carlocation.controls.logic.ParkEventsListCRUD;
+import com.example.carlocation.controls.logic.ListCRUD;
 import com.example.carlocation.model.ParkEvent;
 import com.example.carlocation.model.ParkEventsList;
 
@@ -32,7 +32,7 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        ParkEventsListCRUD crud = new ParkEventsListCRUD(HistoryActivity.this);
+        ListCRUD crud = new ListCRUD(HistoryActivity.this,"myList.json");
         parkEventsList = new ParkEventsList(crud.loadList());
 
         ParkEvent testPark = parkEventsList.read(1);
@@ -53,7 +53,7 @@ public class HistoryActivity extends AppCompatActivity {
         });
     }
     private void setAdapter(){
-        recyclerAdapter adapter=new recyclerAdapter(parkEventsList);
+        recyclerParkEventAdapter adapter=new recyclerParkEventAdapter(parkEventsList);
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator( new DefaultItemAnimator());
