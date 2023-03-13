@@ -1,4 +1,4 @@
-package com.example.carlocation.inteface;
+package com.example.carlocation.view;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -12,10 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.carlocation.R;
-import com.example.carlocation.model.Vehicle;
 import com.example.carlocation.model.VehicleList;
-
-import java.util.ArrayList;
 
 public class recyclerVehiclesAdapter extends RecyclerView.Adapter<recyclerVehiclesAdapter.MyViewHolder> {
     private VehicleList vehicleList;

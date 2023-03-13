@@ -1,4 +1,4 @@
-package com.example.carlocation.inteface;
+package com.example.carlocation.view;
 
 import static android.content.ContentValues.TAG;
 
