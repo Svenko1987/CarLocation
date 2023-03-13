@@ -44,6 +44,7 @@ import com.example.carlocation.view.ShareData;
 import com.example.carlocation.controls.logic.NotificationPublisher;
 import com.example.carlocation.model.ParkEvent;
 import com.example.carlocation.model.ParkEventsList;
+import com.example.carlocation.view.VehicleActivity;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -52,7 +53,7 @@ import com.google.android.gms.location.LocationServices;
 public class MainActivity extends AppCompatActivity {
 
 
-    private Button parkCar, navigate, locate, resetLocation, timer, share, copy, save, history;
+    private Button parkCar, navigate, locate, resetLocation, timer, share, copy, save, history, select;
     private TextView navigateL, locateL, loadingL, resetL, locationName;
     private Chronometer chronometer;
 
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         timer = findViewById(R.id.startTimeBtn);
         share = findViewById(R.id.shareBtn);
         copy = findViewById(R.id.copyBtn);
+        select=findViewById(R.id.selectvehicleBtn);
         chronometer = findViewById(R.id.parkTimer);
         locationName = findViewById(R.id.locationET);
         locateL = findViewById(R.id.locateL);
@@ -260,6 +262,11 @@ public class MainActivity extends AppCompatActivity {
             shareData.copyDataToClipboard();
             Log.d(TAG, "onCreate: " + parkEvent.getLongitude() + " " + parkEvent.getLatitude());
 
+        });
+        select.setOnClickListener(view -> {
+            Intent intent=new Intent(this, VehicleActivity.class);
+
+            startActivity(intent);
         });
         timer.setOnClickListener(view -> {
             int style = AlertDialog.THEME_HOLO_DARK;

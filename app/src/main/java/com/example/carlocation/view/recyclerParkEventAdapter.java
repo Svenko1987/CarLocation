@@ -1,6 +1,9 @@
 package com.example.carlocation.view;
 
+import static android.content.ContentValues.TAG;
+
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,8 +54,12 @@ public class recyclerParkEventAdapter extends RecyclerView.Adapter<recyclerParkE
                 .concat("\n").concat(parkEvents.read(position).getCity());
         holder.addressText.setText(address);
         holder.dateAndTime.setText(date);
-        if(position==3){
-            holder.imageView.setImageDrawable(Drawable.createFromPath("drawable/car.png"));
+        holder.imageView.setBackgroundResource(R.drawable.pngegg);
+        Log.d(TAG, "onBindViewHolder: Changed image");
+
+        if(position==0){
+            holder.imageView.setBackgroundResource(R.drawable.pngegg);
+            Log.d(TAG, "onBindViewHolder: Changed image");
         }
     }
 

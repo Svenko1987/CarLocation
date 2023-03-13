@@ -16,8 +16,8 @@ public class ParkEventsList {
         this.myList = myList;
     }
 
-    public boolean create(ParkEvent myObject) {
-        return myList.add(myObject);
+    public void create(ParkEvent myObject) {
+        myList.add(myObject);
     }
 
     public ParkEvent read(int index) {
