@@ -44,8 +44,11 @@ public class recyclerParkEventAdapter extends RecyclerView.Adapter<recyclerParkE
 
     @Override
     public void onBindViewHolder(@NonNull recyclerParkEventAdapter.MyViewHolder holder, int position) {
+        if(parkEvents.read(position)==null) return;
         String date = parkEvents.read(position).getDate();
-        String address= parkEvents.read(position).getStreet().concat(" ").concat(parkEvents.read(position).getHouseNumber()).concat("\n").concat(parkEvents.read(position).getCity());
+        String address= parkEvents.read(position).getStreet()
+                .concat(" ").concat(parkEvents.read(position).getHouseNumber())
+                .concat("\n").concat(parkEvents.read(position).getCity());
         holder.addressText.setText(address);
         holder.dateAndTime.setText(date);
         if(position==3){

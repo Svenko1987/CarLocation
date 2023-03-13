@@ -110,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
         AppStatus appStatus = new AppStatus();
         ListCRUD crud = new ListCRUD(MainActivity.this,"myList.json");
         parkEventsList = new ParkEventsList(crud.loadList());
-        Log.d(TAG, "LISTA: " + parkEventsList.toString());
-        ParkEvent testpark = parkEventsList.read(1);
-        Log.d(TAG, "Povuceno iz liste: " + testpark.getDate());
+//        Log.d(TAG, "LISTA: " + parkEventsList.toString());
+//        ParkEvent testpark = parkEventsList.read(1);
+//        Log.d(TAG, "Povuceno iz liste: " + testpark.getDate());
 
         manager = new SharedPreferencesManager(sharedPreferences, parkEvent);
         Log.d(TAG, "onCreate: sharedPreferences created");

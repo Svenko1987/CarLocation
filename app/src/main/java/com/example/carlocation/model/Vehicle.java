@@ -9,11 +9,20 @@ public class Vehicle {
     private String firstRegistration;
     private String note;
     private String color;
+    private String image;
 
     public Vehicle(String name, String licencePlate, String color) {
         this.name = name;
         this.licencePlate = licencePlate;
         this.color = color;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getNote() {

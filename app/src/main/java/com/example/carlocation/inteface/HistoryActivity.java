@@ -25,6 +25,7 @@ public class HistoryActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Button saved;
     private Button backToMain;
+    private boolean mode=true;
 
 
     @Override
@@ -36,13 +37,13 @@ public class HistoryActivity extends AppCompatActivity {
         parkEventsList = new ParkEventsList(crud.loadList());
 
         ParkEvent testPark = parkEventsList.read(1);
-        Log.d(TAG, "Povuceno iz liste: " + testPark.getDate());
+        //Log.d(TAG, "Povuceno iz liste: " + testPark.getDate());
 
         recyclerView=findViewById(R.id.recyclerSavedRV);
         saved=findViewById(R.id.savedListBtn);
         backToMain=findViewById(R.id.backToMainBtn);
 
-        setAdapter();
+        setAdapterHistory();
         saved.setOnClickListener(view -> {
             Intent intent= new Intent(this, SavedActivity.class);
             startActivity(intent);
@@ -52,11 +53,19 @@ public class HistoryActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-    private void setAdapter(){
+    private void setAdapterHistory(){
         recyclerParkEventAdapter adapter=new recyclerParkEventAdapter(parkEventsList);
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator( new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+    }
+    private void setAdapterSaved(){
+        recyclerParkEventAdapter adapter=new recyclerParkEventAdapter(parkEventsList);
+        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator( new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+
     }
 }

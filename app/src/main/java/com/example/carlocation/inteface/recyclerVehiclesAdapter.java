@@ -55,6 +55,7 @@ public class recyclerVehiclesAdapter extends RecyclerView.Adapter<recyclerVehicl
 
     @Override
     public void onBindViewHolder(@NonNull recyclerVehiclesAdapter.MyViewHolder holder, int position) {
+        if(vehicleList.read(position)==null) return;
         holder.name.setText(vehicleList.read(position).getName());
         holder.licensePlate.setText(vehicleList.read(position).getLicencePlate());
         holder.manufacturer.setText(vehicleList.read(position).getManufacturer());
