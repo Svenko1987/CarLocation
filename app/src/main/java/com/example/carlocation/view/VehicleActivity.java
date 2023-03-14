@@ -6,16 +6,20 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.example.carlocation.MainActivity;
 import com.example.carlocation.R;
+import com.example.carlocation.controls.logic.ListCRUD;
+import com.example.carlocation.model.Vehicle;
+import com.example.carlocation.model.VehicleList;
 
 public class VehicleActivity extends AppCompatActivity {
     private Button addVehicle;
-    private Button vehicleList;
+    private Button vehicleListBtn;
     private Button backToMain;
-    private ImageView imageView;
+
+    private VehicleList vehicleList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +27,14 @@ public class VehicleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vehicle);
 
         addVehicle = findViewById(R.id.addVehilicleBtn);
-        vehicleList = findViewById(R.id.viewVehicleBtn);
+        vehicleListBtn = findViewById(R.id.viewVehicleBtn);
         backToMain = findViewById(R.id.backBT);
+
+        ListCRUD<Vehicle> crud= new ListCRUD<>(VehicleActivity.this,"myVehiclesList.json");
+        vehicleList= new VehicleList(crud.loadList());
+
+
+
 
         addVehicle.setOnClickListener(view -> {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -35,7 +45,7 @@ public class VehicleActivity extends AppCompatActivity {
                     .commit();
 
         });
-        vehicleList.setOnClickListener(view -> {
+        vehicleListBtn.setOnClickListener(view -> {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, VehicleListFragment.class, null)

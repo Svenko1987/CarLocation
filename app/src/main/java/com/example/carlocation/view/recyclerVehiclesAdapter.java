@@ -20,11 +20,12 @@ public class recyclerVehiclesAdapter extends RecyclerView.Adapter<recyclerVehicl
     public recyclerVehiclesAdapter(VehicleList vehicleList) {
         this.vehicleList = vehicleList;
     }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
         private TextView licensePlate;
         private TextView manufacturer;
-        private TextView type;
+
         private TextView firstRegistration;
         private TextView note;
         private Button color;
@@ -32,13 +33,12 @@ public class recyclerVehiclesAdapter extends RecyclerView.Adapter<recyclerVehicl
 
         public MyViewHolder(final View view) {
             super(view);
-            this.name=view.findViewById(R.id.vehilclenameLb);
-            this.licensePlate=view.findViewById(R.id.licensePlateLb);
-            this.manufacturer=view.findViewById(R.id.manufacturerLb);
-            this.type=view.findViewById(R.id.typeLb);
-            this.firstRegistration=view.findViewById(R.id.firstRegistrationLb);
-            this.note=view.findViewById(R.id.vehlicleNoteLb);
-            this.color= view.findViewById(R.id.colorPickerBtn);
+            this.name = view.findViewById(R.id.vehilclenameLb);
+            this.licensePlate = view.findViewById(R.id.licensePlateLb);
+            this.manufacturer = view.findViewById(R.id.manufacturerLb);
+            this.firstRegistration = view.findViewById(R.id.firstRegistrationLb);
+            this.note = view.findViewById(R.id.vehlicleNoteLb);
+            this.color = view.findViewById(R.id.colorPickerBtn);
             this.imageView = view.findViewById(R.id.vehicleIV);
         }
     }
@@ -52,11 +52,10 @@ public class recyclerVehiclesAdapter extends RecyclerView.Adapter<recyclerVehicl
 
     @Override
     public void onBindViewHolder(@NonNull recyclerVehiclesAdapter.MyViewHolder holder, int position) {
-        if(vehicleList.read(position)==null) return;
+        if (vehicleList.read(position) == null) return;
         holder.name.setText(vehicleList.read(position).getName());
         holder.licensePlate.setText(vehicleList.read(position).getLicencePlate());
         holder.manufacturer.setText(vehicleList.read(position).getManufacturer());
-        holder.type.setText(vehicleList.read(position).getType());
         holder.note.setText(vehicleList.read(position).getNote());
         holder.color.setBackgroundColor(Color.BLACK);
 

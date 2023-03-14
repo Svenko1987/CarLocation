@@ -5,16 +5,19 @@ public class Vehicle {
     private String name;
     private String licencePlate;
     private String manufacturer;
-    private  String type;
     private String firstRegistration;
     private String note;
     private String color;
     private String image;
 
-    public Vehicle(String name, String licencePlate, String color) {
+    public Vehicle(String name, String licencePlate, String manufacturer,  String firstRegistration, String note, String color,String image) {
         this.name = name;
         this.licencePlate = licencePlate;
+        this.manufacturer = manufacturer;
+        this.firstRegistration = firstRegistration;
+        this.note = note;
         this.color = color;
+        this.image = image;
     }
 
     public String getImage() {
@@ -57,13 +60,7 @@ public class Vehicle {
         this.manufacturer = manufacturer;
     }
 
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getFirstRegistration() {
         return firstRegistration;

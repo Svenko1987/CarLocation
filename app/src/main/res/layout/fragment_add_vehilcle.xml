@@ -38,6 +38,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="8dp"
             android:background="@android:drawable/ic_menu_camera"
+            android:contentDescription="takePhoto"
             app:layout_constraintEnd_toEndOf="@+id/button3"
             app:layout_constraintHorizontal_bias="0.323"
             app:layout_constraintStart_toStartOf="@+id/imageView2"
@@ -108,24 +109,9 @@
             app:layout_constraintTop_toBottomOf="@+id/licencePlateT" />
 
         <EditText
-            android:id="@+id/typeT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="Type"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:textColor="@color/darkBlue"
-            android:textColorHint="@color/darkBlue"
-            app:layout_constraintStart_toStartOf="@+id/vehiclaNameT"
-            app:layout_constraintTop_toBottomOf="@+id/manufacturerT" />
-
-        <EditText
             android:id="@+id/dateT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="Date"
             android:inputType="date"
@@ -134,7 +120,7 @@
             android:textColor="@color/darkBlue"
             android:textColorHint="@color/darkBlue"
             app:layout_constraintStart_toStartOf="@+id/vehiclaNameT"
-            app:layout_constraintTop_toBottomOf="@+id/typeT" />
+            app:layout_constraintTop_toBottomOf="@+id/manufacturerT" />
 
         <EditText
             android:id="@+id/noteT"

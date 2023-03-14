@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class ListCRUD {
+public class ListCRUD <T>{
     private static final String TAG = ListCRUD.class.getSimpleName();
     private String FILE_NAME;
     private Gson gson;
@@ -25,7 +25,7 @@ public class ListCRUD {
         gson = new Gson();
     }
 
-    public boolean saveList(ArrayList<ParkEvent> myList) {
+    public boolean saveList(ArrayList<T> myList) {
         try (FileOutputStream fos = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE)) {
             String json = gson.toJson(myList);
             fos.write(json.getBytes());
@@ -36,7 +36,7 @@ public class ListCRUD {
         }
     }
 
-    public ArrayList<ParkEvent> loadList() {
+    public ArrayList<T> loadList() {
         try (FileInputStream fis = context.openFileInput(FILE_NAME);
              BufferedReader reader = new BufferedReader(new InputStreamReader(fis))) {
             StringBuilder sb = new StringBuilder();
@@ -57,7 +57,7 @@ public class ListCRUD {
         return context.deleteFile(FILE_NAME);
     }
 
-    public boolean updateList(ArrayList<ParkEvent> myList) {
+    public boolean updateList(ArrayList<T> myList) {
         Log.d(TAG, "updateList: List Updated");
         return saveList(myList);
     }
