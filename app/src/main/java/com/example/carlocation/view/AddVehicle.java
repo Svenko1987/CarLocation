@@ -3,6 +3,7 @@ package com.example.carlocation.view;
 import static android.content.ContentValues.TAG;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -48,7 +49,7 @@ public class AddVehicle extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_vehilcle, container, false);
-        vehicleImage = view.findViewById(R.id.imageView2);
+        //vehicleImage = view.findViewById(R.id.imageView2);
         save = view.findViewById(R.id.saveVehicleBtn);
         colorBtn = view.findViewById(R.id.selectColorBtn);
         vehicleName = view.findViewById(R.id.vehiclaNameT);
@@ -56,7 +57,7 @@ public class AddVehicle extends Fragment {
         manufacturer = view.findViewById(R.id.manufacturerT);
         date = view.findViewById(R.id.dateT);
         note = view.findViewById(R.id.noteT);
-        vehicleImage.setBackgroundResource(R.drawable.pngegg);
+        // vehicleImage.setBackgroundResource(R.drawable.pngegg);
         ListCRUD<Vehicle> crud = new ListCRUD<>(getActivity(), "myVehiclesList.json");
         vehicleList = new VehicleList(crud.loadList());
 
@@ -100,7 +101,8 @@ public class AddVehicle extends Fragment {
             @Override
             public void onOk(AmbilWarnaDialog dialog, int color) {
                 colorBtn.setBackgroundColor(color);
-                colorValue= String.valueOf(color);
+                colorValue = String.valueOf(color);
+                colorBtn.setText("Change");
             }
         });
         dialog.show();

@@ -1,5 +1,7 @@
 package com.example.carlocation.model;
 
+import android.text.TextUtils;
+
 public class Vehicle {
 
     private String name;
@@ -77,4 +79,5 @@ public class Vehicle {
     public void setColor(String color) {
         this.color = color;
     }
+
 }

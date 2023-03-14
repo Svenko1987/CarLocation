@@ -1,6 +1,7 @@
 package com.example.carlocation.view;
 
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,11 @@ public class recyclerVehiclesAdapter extends RecyclerView.Adapter<recyclerVehicl
         holder.licensePlate.setText(vehicleList.read(position).getLicencePlate());
         holder.manufacturer.setText(vehicleList.read(position).getManufacturer());
         holder.note.setText(vehicleList.read(position).getNote());
-        holder.color.setBackgroundColor(Color.BLACK);
+        if (TextUtils.isEmpty(vehicleList.read(position).getColor())) {
+            holder.color.setBackgroundColor(Color.BLACK);
+            return;
+        }
+        holder.color.setBackgroundColor(Integer.parseInt(vehicleList.read(position).getColor()));
 
     }
 
