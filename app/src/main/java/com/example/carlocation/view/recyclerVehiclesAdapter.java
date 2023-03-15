@@ -56,7 +56,6 @@ public class recyclerVehiclesAdapter extends RecyclerView.Adapter<recyclerVehicl
         if (vehicleList.read(position) == null) return;
         holder.name.setText(vehicleList.read(position).getName());
         holder.licensePlate.setText(vehicleList.read(position).getLicencePlate());
-        holder.manufacturer.setText(vehicleList.read(position).getManufacturer());
         holder.note.setText(vehicleList.read(position).getNote());
         if (TextUtils.isEmpty(vehicleList.read(position).getColor())) {
             holder.color.setBackgroundColor(Color.BLACK);

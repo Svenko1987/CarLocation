@@ -1,21 +1,17 @@
 package com.example.carlocation.model;
 
-import android.text.TextUtils;
-
 public class Vehicle {
 
     private String name;
     private String licencePlate;
-    private String manufacturer;
     private String firstRegistration;
     private String note;
     private String color;
     private String image;
 
-    public Vehicle(String name, String licencePlate, String manufacturer,  String firstRegistration, String note, String color,String image) {
+    public Vehicle(String name, String licencePlate, String firstRegistration, String note, String color, String image) {
         this.name = name;
         this.licencePlate = licencePlate;
-        this.manufacturer = manufacturer;
         this.firstRegistration = firstRegistration;
         this.note = note;
         this.color = color;
@@ -53,15 +49,6 @@ public class Vehicle {
     public void setLicencePlate(String licencePlate) {
         this.licencePlate = licencePlate;
     }
-
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
-
 
 
     public String getFirstRegistration() {

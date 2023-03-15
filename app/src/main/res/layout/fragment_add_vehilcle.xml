@@ -39,10 +39,10 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/dateT"
-            app:layout_constraintEnd_toEndOf="@+id/manufacturerT"
+            app:layout_constraintEnd_toEndOf="@+id/vehiclaNameT"
             app:layout_constraintStart_toEndOf="@+id/dateT"
-            app:layout_constraintTop_toBottomOf="@+id/manufacturerT"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/licencePlateT"
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/button6"
@@ -81,7 +81,7 @@
             android:background="@drawable/rounded_white"
             android:ems="10"
             android:gravity="center"
-            android:hint="Vehicle name"
+            android:hint="Vehicle name.."
             android:inputType="textPersonName"
             android:textColor="@color/darkBlue"
             android:textColorHint="@color/skyBlue"
@@ -97,7 +97,7 @@
             android:background="@drawable/rounded_white"
             android:ems="10"
             android:gravity="center"
-            android:hint="Licence plate"
+            android:hint="Licence plate.."
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:textColor="@color/darkBlue"
@@ -107,31 +107,14 @@
             app:layout_constraintTop_toBottomOf="@+id/vehiclaNameT" />
 
         <EditText
-            android:id="@+id/manufacturerT"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_white"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="Manufacturer"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:textColor="@color/darkBlue"
-            android:textColorHint="@color/skyBlue"
-            app:layout_constraintEnd_toEndOf="@+id/licencePlateT"
-            app:layout_constraintStart_toStartOf="@+id/vehiclaNameT"
-            app:layout_constraintTop_toBottomOf="@+id/licencePlateT" />
-
-        <EditText
             android:id="@+id/dateT"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/rounded_white"
             android:ems="10"
             android:gravity="center"
-            android:hint="Date"
+            android:hint="Year.."
             android:inputType="date"
             android:minHeight="48dp"
             android:textAlignment="gravity"
@@ -140,7 +123,7 @@
             app:layout_constraintEnd_toStartOf="@+id/selectColorBtn"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/vehiclaNameT"
-            app:layout_constraintTop_toBottomOf="@+id/manufacturerT" />
+            app:layout_constraintTop_toBottomOf="@+id/licencePlateT" />
 
         <EditText
             android:id="@+id/noteT"
@@ -152,7 +135,7 @@
             android:background="@drawable/rounded_white"
             android:ems="10"
             android:gravity="center"
-            android:hint="Enter note here"
+            android:hint="Add note.."
             android:inputType="textMultiLine"
             android:minHeight="48dp"
             android:textColor="@color/darkBlue"
