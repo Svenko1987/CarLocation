@@ -71,7 +71,7 @@ public class AddVehicle extends Fragment {
                 String LP = String.valueOf(licencePlate.getText());
                 String dat = String.valueOf(date.getText());
                 String not = String.valueOf(note.getText());
-                Vehicle vehicle = new Vehicle(name, LP, not, dat,colorValue, "");
+                Vehicle vehicle = new Vehicle(name, LP, dat, not,colorValue, "");
                 VehicleList vehicleList = new VehicleList(crud.loadList());
                 vehicleList.create(vehicle);
                 crud.updateList(vehicleList.getMyList());

@@ -33,6 +33,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.carlocation.controls.Btn.AppStatus;
+import com.example.carlocation.model.Vehicle;
+import com.example.carlocation.model.VehicleList;
 import com.example.carlocation.view.ChronometerControls;
 import com.example.carlocation.view.HistoryActivity;
 import com.example.carlocation.view.SavedActivity;
@@ -71,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
     private LocationRequest locationRequest;
     private ParkEvent parkEvent;
     private ParkEventsList parkEventsList;
+    private VehicleList vehicleList;
+    private Vehicle vehicle;
 
 
     @SuppressLint("MissingInflatedId")
@@ -80,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: sharedPreferences created");
 
+        //connecting elements with IDs
+
         sharedPreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         parkCar = findViewById(R.id.parkBtn);
         navigate = findViewById(R.id.navigateBtn);
@@ -88,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         timer = findViewById(R.id.startTimeBtn);
         share = findViewById(R.id.shareBtn);
         copy = findViewById(R.id.copyBtn);
-        select=findViewById(R.id.selectvehicleBtn);
+        select=findViewById(R.id.selectVehicleBtn);
         chronometer = findViewById(R.id.parkTimer);
         locationName = findViewById(R.id.locationET);
         locateL = findViewById(R.id.locateL);
@@ -106,12 +112,17 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
+        // Setting fist view
+
         ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation, timer, share, copy,save, history, chronometer, navigateL, locateL, loadingL, resetL, locationName, progressBar);
         GPSControls gpsControls = new GPSControls(locationRequest, MainActivity.this);
         ChronometerControls chronometerControls = new ChronometerControls(chronometer);
         AppStatus appStatus = new AppStatus();
+
         ListCRUD<ParkEvent> crud = new ListCRUD<>(MainActivity.this,"myList.json");
         parkEventsList = new ParkEventsList(crud.loadList());
+        ListCRUD<Vehicle> crudV= new ListCRUD<>(MainActivity.this,"myVehiclesList.json");
+        vehicleList= new VehicleList(crudV.loadList());
 
         manager = new SharedPreferencesManager(sharedPreferences, parkEvent);
         Log.d(TAG, "onCreate: sharedPreferences created");

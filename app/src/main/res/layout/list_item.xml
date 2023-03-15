@@ -17,7 +17,7 @@
         android:layout_marginBottom="5dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        app:cardBackgroundColor="@color/skyBlue"
+        app:cardBackgroundColor="@color/darkBlue"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

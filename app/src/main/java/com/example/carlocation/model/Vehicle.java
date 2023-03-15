@@ -8,6 +8,7 @@ public class Vehicle {
     private String note;
     private String color;
     private String image;
+    private boolean isSelected=false;
 
     public Vehicle(String name, String licencePlate, String firstRegistration, String note, String color, String image) {
         this.name = name;
@@ -16,6 +17,14 @@ public class Vehicle {
         this.note = note;
         this.color = color;
         this.image = image;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     public String getImage() {
