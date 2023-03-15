@@ -9,16 +9,20 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.carlocation.R;
+import com.example.carlocation.model.Vehicle;
 import com.example.carlocation.model.VehicleList;
 
 public class recyclerVehiclesAdapter extends RecyclerView.Adapter<recyclerVehiclesAdapter.MyViewHolder> {
     private VehicleList vehicleList;
+    private SelectListener<Vehicle> listener;
 
-    public recyclerVehiclesAdapter(VehicleList vehicleList) {
+    public recyclerVehiclesAdapter(VehicleList vehicleList,SelectListener<Vehicle> listener) {
         this.vehicleList = vehicleList;
+        this.listener=listener;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -27,11 +31,13 @@ public class recyclerVehiclesAdapter extends RecyclerView.Adapter<recyclerVehicl
         private TextView firstRegistration;
         private TextView note;
         private Button color;
+         public CardView cardView;
 
         public MyViewHolder(final View view) {
             super(view);
             this.name = view.findViewById(R.id.vehicleNameLb);
             this.licensePlate = view.findViewById(R.id.licensePlateLb);
+            this.cardView= view.findViewById(R.id.vehicleCV);
 
             this.firstRegistration = view.findViewById(R.id.firstRegistrationLb);
             this.note = view.findViewById(R.id.vehlicleNoteLb);
@@ -59,6 +65,9 @@ public class recyclerVehiclesAdapter extends RecyclerView.Adapter<recyclerVehicl
             return;
         }
         holder.color.setBackgroundColor(Integer.parseInt(vehicleList.read(position).getColor()));
+        holder.cardView.setOnClickListener(view -> {
+            listener.onItemClicked(vehicleList.read(position));
+        });
 
     }
 

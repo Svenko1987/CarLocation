@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,19 @@ public class VehicleList {
             return null;
         }
     }
+    public Vehicle getSelected() {
+        for (Object obj : myList) {
+            Gson gson = new Gson();
+            String json = gson.toJson(obj);
+            Vehicle vehicle = gson.fromJson(json, Vehicle.class);
+            if (vehicle.isSelected()) {
+                Log.d(TAG, "read: RETURNED " + vehicle.getName());
+                return vehicle;
+            }
+        }
+        Log.d(TAG, "read: NO SELECTED VEHICLE FOUND");
+        return null;
+    }
     public boolean update(int index, Vehicle myObject) {
         if (index >= 0 && index < myList.size()) {
             myList.set(index, myObject);
@@ -36,6 +50,20 @@ public class VehicleList {
         } else {
             return false;
         }
+    }
+    public boolean updateSelected(Vehicle vehicleToUpdate) {
+        for (Object obj : myList) {
+            if (obj instanceof LinkedTreeMap) {
+                Gson gson = new Gson();
+                String json = gson.toJson(obj);
+                Vehicle vehicle = gson.fromJson(json, Vehicle.class);
+                if (vehicle.equals(vehicleToUpdate)) {
+                    vehicle.setSelected(true);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     public boolean delete(int index) {
         if (index >= 0 && index < myList.size()) {

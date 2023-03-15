@@ -12,12 +12,12 @@ import com.google.gson.Gson;
 /*
 Saving and getting data from sharedPreferences
  */
-public class SharedPreferencesManager {
+public class SharedPreferencesManagerParkEvent {
 
     SharedPreferences sharedPreferences;
     ParkEvent parkEvent;
 
-    public SharedPreferencesManager(SharedPreferences sharedPreferences, ParkEvent parkEvent) {
+    public SharedPreferencesManagerParkEvent(SharedPreferences sharedPreferences, ParkEvent parkEvent) {
 
         this.sharedPreferences = sharedPreferences;
         this.parkEvent = parkEvent;

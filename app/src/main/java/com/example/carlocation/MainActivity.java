@@ -33,6 +33,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.carlocation.controls.Btn.AppStatus;
+import com.example.carlocation.controls.logic.SharedPreferencesManagerVehicle;
 import com.example.carlocation.model.Vehicle;
 import com.example.carlocation.model.VehicleList;
 import com.example.carlocation.view.ChronometerControls;
@@ -40,7 +41,7 @@ import com.example.carlocation.view.HistoryActivity;
 import com.example.carlocation.view.SavedActivity;
 import com.example.carlocation.controls.logic.GPSControls;
 import com.example.carlocation.controls.logic.ListCRUD;
-import com.example.carlocation.controls.logic.SharedPreferencesManager;
+import com.example.carlocation.controls.logic.SharedPreferencesManagerParkEvent;
 import com.example.carlocation.view.ElementsVisibility;
 import com.example.carlocation.view.ShareData;
 import com.example.carlocation.controls.logic.NotificationPublisher;
@@ -68,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String MyPREFERENCES = "CarLocation";
     public static final String value = "key";
     ClipboardManager clipboardManager;
-    private SharedPreferencesManager manager;
+    private SharedPreferencesManagerParkEvent manager;
+    private SharedPreferencesManagerVehicle managerVehicle;
 
     private LocationRequest locationRequest;
     private ParkEvent parkEvent;
@@ -121,10 +123,12 @@ public class MainActivity extends AppCompatActivity {
 
         ListCRUD<ParkEvent> crud = new ListCRUD<>(MainActivity.this,"myList.json");
         parkEventsList = new ParkEventsList(crud.loadList());
+
         ListCRUD<Vehicle> crudV= new ListCRUD<>(MainActivity.this,"myVehiclesList.json");
         vehicleList= new VehicleList(crudV.loadList());
+        vehicle=vehicleList.getSelected();
 
-        manager = new SharedPreferencesManager(sharedPreferences, parkEvent);
+        manager = new SharedPreferencesManagerParkEvent(sharedPreferences, parkEvent);
         Log.d(TAG, "onCreate: sharedPreferences created");
         if (manager.IsEmpty()) {
             Log.d(TAG, "onCreate: Prazan");
@@ -138,6 +142,15 @@ public class MainActivity extends AppCompatActivity {
             elementsVisibility.hidePark();
             chronometerControls.startChronometerWithTime(parkEvent.getTime());
             elementsVisibility.gotLocationMode();
+        }
+        managerVehicle=new SharedPreferencesManagerVehicle(sharedPreferences,vehicle);
+        if (manager.IsEmpty()) {
+            Log.d(TAG, "onCreate: Nema auta");
+        } else {
+            Log.d(TAG, "onCreate: Ima auto");
+            vehicle=managerVehicle.getFromSharedPreferences();
+            this.select.setText(vehicle.getName());
+            this.select.setBackgroundColor(Integer.parseInt(vehicle.getColor()));
         }
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
