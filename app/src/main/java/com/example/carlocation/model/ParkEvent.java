@@ -4,6 +4,8 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -136,5 +138,11 @@ public class ParkEvent {
     public void setTime(long time) {
 
         this.time = time;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

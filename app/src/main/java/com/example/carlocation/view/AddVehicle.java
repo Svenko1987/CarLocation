@@ -76,6 +76,9 @@ public class AddVehicle extends Fragment {
                 vehicleList.create(vehicle);
                 crud.updateList(vehicleList.getMyList());
                 Log.d(TAG, "onCreateView: SAVED IN LIST");
+                SaveDialogFragment dialog = new SaveDialogFragment();
+                dialog.show(getFragmentManager(), "SaveDialogFragment");
+
             } else {
                 Toast.makeText(getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
             }

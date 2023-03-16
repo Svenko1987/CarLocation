@@ -1,5 +1,7 @@
 package com.example.carlocation.model;
 
+import androidx.annotation.NonNull;
+
 public class Vehicle {
 
     private String name;
@@ -76,4 +78,9 @@ public class Vehicle {
         this.color = color;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

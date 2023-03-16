@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.example.carlocation.R;
 import com.example.carlocation.controls.logic.ListCRUD;
-import com.example.carlocation.controls.logic.SharedPreferencesManager;
-
+import com.example.carlocation.controls.logic.SharedPreferencesManagerParkEvent;
+import com.example.carlocation.controls.logic.SharedPreferencesManagerVehicle;
 import com.example.carlocation.model.Vehicle;
 import com.example.carlocation.model.VehicleList;
 
@@ -31,8 +31,7 @@ public class VehicleListFragment extends Fragment implements SelectListener<Vehi
     ListCRUD<Vehicle> crud;
 
     private SharedPreferences sharedPreferences;
-    private SharedPreferencesManager<Vehicle> manager;
-
+    private SharedPreferencesManagerVehicle manager;
     Vehicle vehicle;
 
     @Override
@@ -42,13 +41,13 @@ public class VehicleListFragment extends Fragment implements SelectListener<Vehi
         View view= inflater.inflate(R.layout.fragment_vehicle_list, container, false);
         recyclerView=view.findViewById(R.id.vehiclesRW);
         sharedPreferences = getContext().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
-        manager = new SharedPreferencesManager(sharedPreferences,vehicle, Vehicle.class);
+        manager = new SharedPreferencesManagerVehicle(sharedPreferences,vehicle);
 
 
 
         crud= new ListCRUD<>(getActivity(),"myVehiclesList.json");
         vehicleList= new VehicleList(crud.loadList());
-        
+
         setAdapterVehicles();
 
 
@@ -66,7 +65,7 @@ public class VehicleListFragment extends Fragment implements SelectListener<Vehi
     @Override
     public void onItemClicked(Vehicle vehicle) {
         this.vehicle=vehicle;
-        manager.setObject(vehicle);
+        manager.setLocation(vehicle);
         manager.putToSharedPreferences();
 //        vehicle.setSelected(true);
 //        vehicleList.updateSelected(vehicle);

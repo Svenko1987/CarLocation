@@ -1,5 +1,7 @@
 package com.example.carlocation.controls.logic;
 
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -29,12 +31,16 @@ public class SharedPreferencesManager<T> {
 
     public void setObject(T object) {
         this.object = object;
+        Log.d(TAG, "setObject: "+object.toString());
     }
 
     public T getFromSharedPreferences(){
         Gson gson = new Gson();
         String json = sharedPreferences.getString(clazz.getSimpleName(), "");
         T object = gson.fromJson(json, clazz);
+        if (object != null) {
+            Log.d(TAG, "getFromSharedPreferences: "+ object.getClass()+ " " + object.toString());
+        }
         return object;
     }
 
