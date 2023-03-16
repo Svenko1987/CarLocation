@@ -33,7 +33,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.carlocation.controls.Btn.AppStatus;
-import com.example.carlocation.controls.logic.SharedPreferencesManagerVehicle;
+import com.example.carlocation.controls.logic.SharedPreferencesManager;
 import com.example.carlocation.model.Vehicle;
 import com.example.carlocation.model.VehicleList;
 import com.example.carlocation.view.ChronometerControls;
@@ -41,7 +41,7 @@ import com.example.carlocation.view.HistoryActivity;
 import com.example.carlocation.view.SavedActivity;
 import com.example.carlocation.controls.logic.GPSControls;
 import com.example.carlocation.controls.logic.ListCRUD;
-import com.example.carlocation.controls.logic.SharedPreferencesManagerParkEvent;
+
 import com.example.carlocation.view.ElementsVisibility;
 import com.example.carlocation.view.ShareData;
 import com.example.carlocation.controls.logic.NotificationPublisher;
@@ -69,8 +69,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String MyPREFERENCES = "CarLocation";
     public static final String value = "key";
     ClipboardManager clipboardManager;
-    private SharedPreferencesManagerParkEvent manager;
-    private SharedPreferencesManagerVehicle managerVehicle;
+    //private SharedPreferencesManagerParkEvent sharedPreferencesManagerParkEvent;
+    //private SharedPreferencesManagerVehicle sharedPreferencesManagerVehicle;
+    private SharedPreferencesManager<Vehicle> managerVehicle;
+    private SharedPreferencesManager<ParkEvent> managerParkEvent;
 
     private LocationRequest locationRequest;
     private ParkEvent parkEvent;
@@ -128,13 +130,13 @@ public class MainActivity extends AppCompatActivity {
         vehicleList= new VehicleList(crudV.loadList());
         vehicle=vehicleList.getSelected();
 
-        manager = new SharedPreferencesManagerParkEvent(sharedPreferences, parkEvent);
+        managerParkEvent = new SharedPreferencesManager<>(sharedPreferences, parkEvent,ParkEvent.class);
         Log.d(TAG, "onCreate: sharedPreferences created");
-        if (manager.IsEmpty()) {
+        if (managerParkEvent.isEmpty()) {
             Log.d(TAG, "onCreate: Prazan");
         } else {
             Log.d(TAG, "onCreate: Nije prazan");
-            parkEvent = manager.getFromSharedPreferences();
+            parkEvent = managerParkEvent.getFromSharedPreferences();
             longitude = parkEvent.getLongitude();
             latitude = parkEvent.getLatitude();
 
@@ -143,12 +145,12 @@ public class MainActivity extends AppCompatActivity {
             chronometerControls.startChronometerWithTime(parkEvent.getTime());
             elementsVisibility.gotLocationMode();
         }
-        managerVehicle=new SharedPreferencesManagerVehicle(sharedPreferences,vehicle);
-        if (manager.IsEmpty()) {
+        managerVehicle =new SharedPreferencesManager<>(sharedPreferences,vehicle,Vehicle.class);
+        if (managerParkEvent.isEmpty()) {
             Log.d(TAG, "onCreate: Nema auta");
         } else {
             Log.d(TAG, "onCreate: Ima auto");
-            vehicle=managerVehicle.getFromSharedPreferences();
+            vehicle= managerVehicle.getFromSharedPreferences();
             this.select.setText(vehicle.getName());
             this.select.setBackgroundColor(Integer.parseInt(vehicle.getColor()));
         }
@@ -194,8 +196,8 @@ public class MainActivity extends AppCompatActivity {
                             parkEvent = new ParkEvent(latitude, longitude, MainActivity.this);
                             parkEventsList.create(parkEvent);
                             crud.updateList(parkEventsList.getMyList());
-                            manager.setLocation(parkEvent);
-                            manager.putToSharedPreferences();
+                            managerParkEvent.setObject(parkEvent);
+                            managerParkEvent.putToSharedPreferences();
                             elementsVisibility.gotLocationMode();
                         }
                     }
@@ -253,8 +255,8 @@ public class MainActivity extends AppCompatActivity {
                         parkEvent = new ParkEvent(latitude, longitude, MainActivity.this);
                         parkEventsList.create(parkEvent);
                         crud.updateList(parkEventsList.getMyList());
-                        manager.setLocation(parkEvent);
-                        manager.putToSharedPreferences();
+                        managerParkEvent.setObject(parkEvent);
+                        managerParkEvent.putToSharedPreferences();
                         elementsVisibility.gotLocationMode();
                         chronometerControls.startChronometer();
                     }
@@ -336,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (latitude != 0.0 && longitude != 0.0) manager.putToSharedPreferences();
+        if (latitude != 0.0 && longitude != 0.0) managerParkEvent.putToSharedPreferences();
 
 
     }
