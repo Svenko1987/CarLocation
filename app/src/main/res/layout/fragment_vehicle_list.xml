@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Your vehicles"
-            android:background="@drawable/rounded_dakrblue"
+            android:background="@drawable/rounded_dark_blue"
 
             android:layout_margin="8dp"
 

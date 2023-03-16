@@ -22,7 +22,6 @@ import com.example.carlocation.controls.logic.ListCRUD;
 import com.example.carlocation.model.Vehicle;
 import com.example.carlocation.model.VehicleList;
 
-import java.util.Calendar;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 

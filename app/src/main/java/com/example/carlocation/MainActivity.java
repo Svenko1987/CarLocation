@@ -38,6 +38,7 @@ import com.example.carlocation.model.Vehicle;
 import com.example.carlocation.model.VehicleList;
 import com.example.carlocation.view.ChronometerControls;
 import com.example.carlocation.view.HistoryActivity;
+import com.example.carlocation.view.SaveLocationActivity;
 import com.example.carlocation.view.SavedActivity;
 import com.example.carlocation.controls.logic.GPSControls;
 import com.example.carlocation.controls.logic.ListCRUD;
@@ -266,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
         save.setOnClickListener(view -> {
-            Intent intent=new Intent(this, SavedActivity.class);
+            Intent intent=new Intent(this, SaveLocationActivity.class);
 
             startActivity(intent);
         });
