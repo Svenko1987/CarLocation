@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         timer = findViewById(R.id.startTimeBtn);
         share = findViewById(R.id.shareBtn);
         copy = findViewById(R.id.copyBtn);
-        select=findViewById(R.id.selectVehicleBtn);
+        select = findViewById(R.id.selectVehicleBtn);
         chronometer = findViewById(R.id.parkTimer);
         locationName = findViewById(R.id.locationET);
         locateL = findViewById(R.id.locateL);
@@ -117,17 +117,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Setting fist view
 
-        ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation, timer, share, copy,save, history, chronometer, navigateL, locateL, loadingL, resetL, locationName, progressBar);
+        ElementsVisibility elementsVisibility = new ElementsVisibility(parkCar, navigate, locate, resetLocation, timer, share, copy, save, history, chronometer, navigateL, locateL, loadingL, resetL, locationName, progressBar);
         GPSControls gpsControls = new GPSControls(locationRequest, MainActivity.this);
         ChronometerControls chronometerControls = new ChronometerControls(chronometer);
         AppStatus appStatus = new AppStatus();
 
-        ListCRUD<ParkEvent> crud = new ListCRUD<>(MainActivity.this,"myList.json");
+        ListCRUD<ParkEvent> crud = new ListCRUD<>(MainActivity.this, "myList.json");
         parkEventsList = new ParkEventsList(crud.loadList());
 
-        ListCRUD<Vehicle> crudV= new ListCRUD<>(MainActivity.this,"myVehiclesList.json");
-        vehicleList= new VehicleList(crudV.loadList());
-        vehicle=vehicleList.getSelected();
+        ListCRUD<Vehicle> crudV = new ListCRUD<>(MainActivity.this, "myVehiclesList.json");
+        vehicleList = new VehicleList(crudV.loadList());
+        vehicle = vehicleList.getSelected();
 
         manager = new SharedPreferencesManagerParkEvent(sharedPreferences, parkEvent);
         Log.d(TAG, "onCreate: sharedPreferences created");
@@ -144,17 +144,16 @@ public class MainActivity extends AppCompatActivity {
             chronometerControls.startChronometerWithTime(parkEvent.getTime());
             elementsVisibility.gotLocationMode();
         }
-        managerVehicle=new SharedPreferencesManagerVehicle(sharedPreferences,vehicle);
+        managerVehicle = new SharedPreferencesManagerVehicle(sharedPreferences, vehicle);
         if (manager.IsEmpty()) {
             Log.d(TAG, "onCreate: Nema auta");
         } else {
             Log.d(TAG, "onCreate: Ima auto");
-            vehicle=managerVehicle.getFromSharedPreferences();
+            vehicle = managerVehicle.getFromSharedPreferences();
             this.select.setText(vehicle.getName());
             this.select.setBackgroundColor(Integer.parseInt(vehicle.getColor()));
         }
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(5000);
@@ -263,11 +262,11 @@ public class MainActivity extends AppCompatActivity {
             }, Looper.getMainLooper());
         });
         history.setOnClickListener(view -> {
-            Intent intent= new Intent(this, HistoryActivity.class);
+            Intent intent = new Intent(this, HistoryActivity.class);
             startActivity(intent);
         });
         save.setOnClickListener(view -> {
-            Intent intent=new Intent(this, SaveLocationActivity.class);
+            Intent intent = new Intent(this, SaveLocationActivity.class);
 
             startActivity(intent);
         });
@@ -286,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
         select.setOnClickListener(view -> {
-            Intent intent=new Intent(this, VehicleActivity.class);
+            Intent intent = new Intent(this, VehicleActivity.class);
 
             startActivity(intent);
         });

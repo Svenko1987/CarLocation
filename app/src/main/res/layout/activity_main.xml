@@ -219,7 +219,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:background="@drawable/long_round_button"
-        android:text="+ Add new location"
+        android:text="+ Add location"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"

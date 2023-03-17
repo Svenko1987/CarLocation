@@ -67,10 +67,6 @@ public class VehicleListFragment extends Fragment implements SelectListener<Vehi
         this.vehicle=vehicle;
         manager.setLocation(vehicle);
         manager.putToSharedPreferences();
-//        vehicle.setSelected(true);
-//        vehicleList.updateSelected(vehicle);
-//        crud.updateList(vehicleList.getMyList());
-
         Toast.makeText(getContext(), "SELECTED : "+vehicle.getName(), Toast.LENGTH_SHORT).show();
     }
 }

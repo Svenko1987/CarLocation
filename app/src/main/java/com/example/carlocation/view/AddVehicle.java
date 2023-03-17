@@ -1,12 +1,19 @@
 package com.example.carlocation.view;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
+
+import static com.example.carlocation.MainActivity.MyPREFERENCES;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +26,7 @@ import android.widget.Toast;
 
 import com.example.carlocation.R;
 import com.example.carlocation.controls.logic.ListCRUD;
+import com.example.carlocation.controls.logic.SharedPreferencesManagerVehicle;
 import com.example.carlocation.model.Vehicle;
 import com.example.carlocation.model.VehicleList;
 
@@ -37,6 +45,9 @@ public class AddVehicle extends Fragment {
     private TextView note;
 
     private String colorValue;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferencesManagerVehicle manager;
+    Vehicle vehicle;
 
 
     @Override
@@ -54,6 +65,8 @@ public class AddVehicle extends Fragment {
         note = view.findViewById(R.id.noteT);
         ListCRUD<Vehicle> crud = new ListCRUD<>(getActivity(), "myVehiclesList.json");
         vehicleList = new VehicleList(crud.loadList());
+        sharedPreferences = getContext().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        manager = new SharedPreferencesManagerVehicle(sharedPreferences,vehicle);
 
         clearHintOnFocus(vehicleName,"Vehicle name..");
         clearHintOnFocus(licencePlate,"Licence plate..");
@@ -70,13 +83,20 @@ public class AddVehicle extends Fragment {
                 String LP = String.valueOf(licencePlate.getText());
                 String dat = String.valueOf(date.getText());
                 String not = String.valueOf(note.getText());
+                if(colorValue==null) colorValue= String.valueOf(colorBtn.getSolidColor());
                 Vehicle vehicle = new Vehicle(name, LP, dat, not,colorValue, "");
                 VehicleList vehicleList = new VehicleList(crud.loadList());
                 vehicleList.create(vehicle);
                 crud.updateList(vehicleList.getMyList());
-                Log.d(TAG, "onCreateView: SAVED IN LIST");
+
+                manager.setLocation(vehicle);
+                manager.putToSharedPreferences();
                 SaveDialogFragment dialog = new SaveDialogFragment();
                 dialog.show(getFragmentManager(), "SaveDialogFragment");
+                Intent intent=new Intent(getContext(), VehicleActivity.class);
+                startActivity(intent);
+
+
 
             } else {
                 Toast.makeText(getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
