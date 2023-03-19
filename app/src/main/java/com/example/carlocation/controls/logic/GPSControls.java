@@ -100,7 +100,7 @@ public class GPSControls {
             textView.setText(street + " " + houseNumber+", "+city);
             Log.d(TAG, "getAddress: " + city + "  " + houseNumber + "  " + street);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+           // throw new RuntimeException(e);
         }
 
     }

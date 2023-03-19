@@ -9,22 +9,64 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/rounded_dark_blue">
+        android:background="@drawable/rounded_dark_blue"
+        tools:layout_editor_absoluteY="16dp">
+
+        <Button
+            android:id="@+id/saveLocBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/round_button"
+            android:text="Save"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/noteT2"
+            app:layout_constraintTop_toBottomOf="@+id/noteT2" />
+
+        <EditText
+            android:id="@+id/noteT2"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/rounded_white"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Add note.."
+            android:inputType="textMultiLine"
+            android:minHeight="48dp"
+            android:textColor="@color/darkBlue"
+            android:textColorHint="@color/skyBlue"
+            app:layout_constraintEnd_toEndOf="@+id/locationET4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/locationET4"
+            app:layout_constraintTop_toBottomOf="@+id/resetLocationBtn2" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+
+            android:background="@drawable/camera_icon"
+            android:backgroundTint="@color/white"
+            android:contentDescription="takePhoto"
+            app:iconTint="@color/white"
+            app:layout_constraintBaseline_toBaselineOf="@+id/resetLocationBtn2"
+            app:layout_constraintStart_toStartOf="@+id/locationET4" />
 
         <Button
             android:id="@+id/resetLocationBtn2"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/reset"
 
             android:clickable="true"
             android:contentDescription="resetLocation"
             app:iconTint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.731"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/locationET4"
             app:strokeColor="@color/white" />
@@ -64,7 +106,7 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="80dp"
             android:text="Add new location"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -74,16 +116,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/cancelB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
+            android:text="Cancel"
+            app:layout_constraintBaseline_toBaselineOf="@+id/saveLocBtn"
+            app:layout_constraintEnd_toEndOf="@+id/locationET4"
+            app:layout_constraintStart_toEndOf="@+id/saveLocBtn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

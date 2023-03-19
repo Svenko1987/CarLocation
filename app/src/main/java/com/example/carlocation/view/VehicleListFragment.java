@@ -3,6 +3,7 @@ package com.example.carlocation.view;
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.carlocation.MainActivity.MyPREFERENCES;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.carlocation.MainActivity;
 import com.example.carlocation.R;
 import com.example.carlocation.controls.logic.ListCRUD;
 import com.example.carlocation.controls.logic.SharedPreferencesManagerParkEvent;
@@ -68,5 +70,8 @@ public class VehicleListFragment extends Fragment implements SelectListener<Vehi
         manager.setLocation(vehicle);
         manager.putToSharedPreferences();
         Toast.makeText(getContext(), "SELECTED : "+vehicle.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        startActivity(intent);
     }
+
 }
