@@ -43,6 +43,7 @@ public class AddVehicle extends Fragment {
     private TextView licencePlate;
     private TextView date;
     private TextView note;
+    private  TextView info;
 
     private String colorValue;
     private SharedPreferences sharedPreferences;
@@ -63,6 +64,7 @@ public class AddVehicle extends Fragment {
         licencePlate = view.findViewById(R.id.licencePlateT);
         date = view.findViewById(R.id.dateT);
         note = view.findViewById(R.id.noteT);
+        info= view.findViewById(R.id.infoL);
         ListCRUD<Vehicle> crud = new ListCRUD<>(getActivity(), "myVehiclesList.json");
         vehicleList = new VehicleList(crud.loadList());
         sharedPreferences = getContext().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
@@ -93,8 +95,15 @@ public class AddVehicle extends Fragment {
                 manager.putToSharedPreferences();
                 SaveDialogFragment dialog = new SaveDialogFragment();
                 dialog.show(getFragmentManager(), "SaveDialogFragment");
-                Intent intent=new Intent(getContext(), VehicleActivity.class);
-                startActivity(intent);
+                save.setText("Saved");
+                info.setText("Your Vehicle is saved!");
+                vehicleName.setFocusable(false);
+                licencePlate.setFocusable(false);
+                date.setFocusable(false);
+                note.setFocusable(false);
+                colorBtn.setClickable(false);
+                save.setClickable(false);
+
 
 
 
