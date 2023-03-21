@@ -31,7 +31,7 @@ public class SavedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved);
 
-        ListCRUD crud = new ListCRUD(SavedActivity.this, "myList.json");
+        ListCRUD crud = new ListCRUD(SavedActivity.this, "mySavedList.json");
         parkEventsList = new ParkEventsList(crud.loadList());
 
 

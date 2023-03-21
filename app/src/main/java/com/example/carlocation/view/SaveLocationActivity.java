@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -36,6 +37,8 @@ public class SaveLocationActivity extends AppCompatActivity {
     private SharedPreferencesManagerVehicle managerVehicle;
     private ParkEvent parkEvent;
     private ParkEventsList parkEventsList;
+    private double latitude;
+    private double longitude;
 
 
 
@@ -52,13 +55,14 @@ public class SaveLocationActivity extends AppCompatActivity {
         save= findViewById(R.id.saveLocBtn);
         cancel= findViewById(R.id.cancelB);
         currentLocation=findViewById(R.id.locationET4);
+        currentLocation.setFocusable(false);
         note=findViewById(R.id.noteT2);
 
 
         ListCRUD<ParkEvent> crud = new ListCRUD<>(SaveLocationActivity.this, "mySavedList.json");
         parkEventsList = new ParkEventsList(crud.loadList());
-
         manager = new SharedPreferencesManagerParkEvent(sharedPreferences, parkEvent);
+
         Log.d(TAG, "onCreate: sharedPreferences created");
         if (manager.IsEmpty()) {
             Log.d(TAG, "onCreate: Prazan");
@@ -66,14 +70,23 @@ public class SaveLocationActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "onCreate: Nije prazan");
             parkEvent = manager.getFromSharedPreferences();
+            longitude = parkEvent.getLongitude();
+            latitude = parkEvent.getLatitude();
+            currentLocation.setText(parkEvent.getStreet()+" "+parkEvent.getHouseNumber()+", "+parkEvent.getCity());
 
         }
+        clearHintOnFocus(note,"Add note..");
 
         relocate.setOnClickListener(view -> {
 
 
         });
         save.setOnClickListener(view -> {
+
+            parkEvent = new ParkEvent(latitude, longitude, SaveLocationActivity.this);
+            parkEvent.setNote((String) note.getText());
+            parkEventsList.create(parkEvent);
+            crud.updateList(parkEventsList.getMyList());
             SaveDialogFragment dialog = new SaveDialogFragment();
             dialog.show(getSupportFragmentManager(), "SaveDialogFragment");
         });
@@ -86,5 +99,18 @@ public class SaveLocationActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void clearHintOnFocus(final TextView editText, final String hint) {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    editText.setHint("");
+                } else {
+                    editText.setHint(hint);
+                }
+            }
+        });
     }
 }

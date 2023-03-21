@@ -1,8 +1,11 @@
 package com.example.carlocation.model;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -29,7 +32,8 @@ public class ParkEvent {
         try {
             this.address = (Address) setAddress(latitude, longitude, context);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.d(TAG, "Searching location: Cant get location");;
+
         }
         this.city = address.getLocality();
         this.houseNumber = address.getFeatureName();

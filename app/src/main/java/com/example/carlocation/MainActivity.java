@@ -239,32 +239,40 @@ public class MainActivity extends AppCompatActivity {
             }
 
             elementsVisibility.searchingForLocation();
-            LocationServices.getFusedLocationProviderClient(MainActivity.this).requestLocationUpdates(locationRequest, new LocationCallback() {
-                @Override
-                public void onLocationResult(@NonNull LocationResult locationResult) {
-                    super.onLocationResult(locationResult);
-                    LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
-                    if (locationResult.getLocations().size() > 0) {
-                        int index = locationResult.getLocations().size() - 1;
-                        latitude = locationResult.getLocations().get(index).getLatitude();
-                        longitude = locationResult.getLocations().get(index).getLongitude();
-                        gpsControls.getAddressToText(latitude, longitude, locationName);
-                        parkEvent = new ParkEvent(latitude, longitude, MainActivity.this);
-                        parkEventsList.create(parkEvent);
-                        crud.updateList(parkEventsList.getMyList());
-                        manager.setLocation(parkEvent);
-                        manager.putToSharedPreferences();
-                        elementsVisibility.gotLocationMode();
-                        chronometerControls.startChronometer();
+            try {
+                LocationServices.getFusedLocationProviderClient(MainActivity.this).requestLocationUpdates(locationRequest, new LocationCallback() {
+                    @Override
+                    public void onLocationResult(@NonNull LocationResult locationResult) {
+                        super.onLocationResult(locationResult);
+                        LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
+                        if (locationResult.getLocations().size() > 0) {
+                            int index = locationResult.getLocations().size() - 1;
+                            latitude = locationResult.getLocations().get(index).getLatitude();
+                            longitude = locationResult.getLocations().get(index).getLongitude();
+                            gpsControls.getAddressToText(latitude, longitude, locationName);
+                            parkEvent = new ParkEvent(latitude, longitude, MainActivity.this);
+                            parkEventsList.create(parkEvent);
+                            crud.updateList(parkEventsList.getMyList());
+                            manager.setLocation(parkEvent);
+                            manager.putToSharedPreferences();
+                            elementsVisibility.gotLocationMode();
+                            chronometerControls.startChronometer();
+                        }
                     }
-                }
-            }, Looper.getMainLooper());
+                }, Looper.getMainLooper());
+
+            } catch (Exception e) {
+                Log.d(TAG, "Searching location: Cant get location");;
+            }
+
         });
         history.setOnClickListener(view -> {
             Intent intent = new Intent(this, HistoryActivity.class);
             startActivity(intent);
         });
         save.setOnClickListener(view -> {
+            manager.setLocation(parkEvent);
+            manager.putToSharedPreferences();
             Intent intent = new Intent(this, SaveLocationActivity.class);
 
             startActivity(intent);

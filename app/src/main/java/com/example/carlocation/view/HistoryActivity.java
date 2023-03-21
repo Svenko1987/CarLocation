@@ -31,6 +31,7 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
 
         ListCRUD crud = new ListCRUD(HistoryActivity.this,"myList.json");
+        ListCRUD crudSaved = new ListCRUD(HistoryActivity.this,"mySavedList.json");
         parkEventsList = new ParkEventsList(crud.loadList());
 
         ParkEvent testPark = parkEventsList.read(1);
