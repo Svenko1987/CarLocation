@@ -43,7 +43,7 @@ public class AddVehicle extends Fragment {
     private TextView licencePlate;
     private TextView date;
     private TextView note;
-    private  TextView info;
+    private TextView info;
 
     private String colorValue;
     private SharedPreferences sharedPreferences;
@@ -64,52 +64,47 @@ public class AddVehicle extends Fragment {
         licencePlate = view.findViewById(R.id.licencePlateT);
         date = view.findViewById(R.id.dateT);
         note = view.findViewById(R.id.noteT);
-        info= view.findViewById(R.id.infoL);
+        info = view.findViewById(R.id.infoL);
         ListCRUD<Vehicle> crud = new ListCRUD<>(getActivity(), "myVehiclesList.json");
         vehicleList = new VehicleList(crud.loadList());
         sharedPreferences = getContext().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
-        manager = new SharedPreferencesManagerVehicle(sharedPreferences,vehicle);
+        manager = new SharedPreferencesManagerVehicle(sharedPreferences, vehicle);
 
-        clearHintOnFocus(vehicleName,"Vehicle name..");
-        clearHintOnFocus(licencePlate,"Licence plate..");
-        clearHintOnFocus(note,"Add note..");
-        clearHintOnFocus(date,"Year..");
-
-
+        clearHintOnFocus(vehicleName, "Vehicle name..");
+        clearHintOnFocus(licencePlate, "Licence plate..");
+        clearHintOnFocus(note, "Add note..");
+        clearHintOnFocus(date, "Year..");
 
 
         save.setOnClickListener(view1 -> {
-            if (isTextViewNotEmpty(vehicleName) && isTextViewNotEmpty(licencePlate) && isTextViewNotEmpty(date) &&
-                    isTextViewNotEmpty(note)) {
-                String name = String.valueOf(vehicleName.getText());
-                String LP = String.valueOf(licencePlate.getText());
-                String dat = String.valueOf(date.getText());
-                String not = String.valueOf(note.getText());
-                if(colorValue==null) colorValue= String.valueOf(colorBtn.getSolidColor());
-                Vehicle vehicle = new Vehicle(name, LP, dat, not,colorValue, "");
-                VehicleList vehicleList = new VehicleList(crud.loadList());
-                vehicleList.create(vehicle);
-                crud.updateList(vehicleList.getMyList());
-
-                manager.setLocation(vehicle);
-                manager.putToSharedPreferences();
-                SaveDialogFragment dialog = new SaveDialogFragment();
-                dialog.show(getFragmentManager(), "SaveDialogFragment");
-                save.setText("Saved");
-                info.setText("Your Vehicle is saved!");
-                vehicleName.setFocusable(false);
-                licencePlate.setFocusable(false);
-                date.setFocusable(false);
-                note.setFocusable(false);
-                colorBtn.setClickable(false);
-                save.setClickable(false);
-
-
-
-
-            } else {
+            if (!isTextViewNotEmpty(vehicleName) && !isTextViewNotEmpty(licencePlate) && !isTextViewNotEmpty(date) &&
+                    !isTextViewNotEmpty(note)) {
                 Toast.makeText(getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
             }
+            String name = String.valueOf(vehicleName.getText());
+            String LP = String.valueOf(licencePlate.getText());
+            String dat = String.valueOf(date.getText());
+            String not = String.valueOf(note.getText());
+            if (colorValue == null) colorValue = String.valueOf(colorBtn.getSolidColor());
+            Vehicle vehicle = new Vehicle(name, LP, dat, not, colorValue, "");
+            VehicleList vehicleList = new VehicleList(crud.loadList());
+            vehicleList.create(vehicle);
+            crud.updateList(vehicleList.getMyList());
+
+            manager.setLocation(vehicle);
+            manager.putToSharedPreferences();
+            SaveDialogFragment dialog = new SaveDialogFragment();
+            dialog.show(getFragmentManager(), "SaveDialogFragment");
+            save.setText("Saved");
+            info.setText("Your Vehicle is saved!");
+            vehicleName.setFocusable(false);
+            licencePlate.setFocusable(false);
+            date.setFocusable(false);
+            note.setFocusable(false);
+            colorBtn.setClickable(false);
+            save.setClickable(false);
+
         });
         colorBtn.setOnClickListener(view1 -> {
             openColorPicker();
@@ -143,6 +138,7 @@ public class AddVehicle extends Fragment {
         return textView != null && textView.getText() != null &&
                 !textView.getText().toString().trim().isEmpty();
     }
+
     public void clearHintOnFocus(final TextView editText, final String hint) {
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.carlocation.MainActivity;
 import com.example.carlocation.R;
@@ -82,9 +83,14 @@ public class SaveLocationActivity extends AppCompatActivity {
 
         });
         save.setOnClickListener(view -> {
-
+            if(!isTextViewNotEmpty(note)){
+                Toast.makeText(SaveLocationActivity.this, "Please Enter note", Toast.LENGTH_SHORT).show();
+                return;
+            }
             parkEvent = new ParkEvent(latitude, longitude, SaveLocationActivity.this);
-            parkEvent.setNote((String) note.getText());
+            String te=note.toString();
+            note.setFocusable(false);
+            parkEvent.setNote(te);
             parkEventsList.create(parkEvent);
             crud.updateList(parkEventsList.getMyList());
             SaveDialogFragment dialog = new SaveDialogFragment();
@@ -112,5 +118,9 @@ public class SaveLocationActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    private boolean isTextViewNotEmpty(TextView textView) {
+        return textView != null && textView.getText() != null &&
+                !textView.getText().toString().trim().isEmpty();
     }
 }
