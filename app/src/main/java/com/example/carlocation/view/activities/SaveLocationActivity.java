@@ -1,27 +1,36 @@
-package com.example.carlocation.view;
+package com.example.carlocation.view.activities;
 
 import static android.content.ContentValues.TAG;
 import static com.example.carlocation.MainActivity.MyPREFERENCES;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.carlocation.MainActivity;
 import com.example.carlocation.R;
+import com.example.carlocation.controls.logic.GPSControls;
 import com.example.carlocation.controls.logic.ListCRUD;
 import com.example.carlocation.controls.logic.SharedPreferencesManagerParkEvent;
 import com.example.carlocation.controls.logic.SharedPreferencesManagerVehicle;
 import com.example.carlocation.model.ParkEvent;
 import com.example.carlocation.model.ParkEventsList;
+import com.example.carlocation.view.fragments.LoadingDialogFragment;
+import com.example.carlocation.view.fragments.SaveDialogFragment;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 
 public class SaveLocationActivity extends AppCompatActivity {
 
@@ -40,6 +49,7 @@ public class SaveLocationActivity extends AppCompatActivity {
     private ParkEventsList parkEventsList;
     private double latitude;
     private double longitude;
+    private LocationRequest locationRequest;
 
 
 
@@ -64,6 +74,13 @@ public class SaveLocationActivity extends AppCompatActivity {
         parkEventsList = new ParkEventsList(crud.loadList());
         manager = new SharedPreferencesManagerParkEvent(sharedPreferences, parkEvent);
 
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(2000);
+
+        GPSControls gpsControls = new GPSControls(locationRequest, SaveLocationActivity.this);
+
         Log.d(TAG, "onCreate: sharedPreferences created");
         if (manager.IsEmpty()) {
             Log.d(TAG, "onCreate: Prazan");
@@ -79,6 +96,47 @@ public class SaveLocationActivity extends AppCompatActivity {
         clearHintOnFocus(note,"Add note..");
 
         relocate.setOnClickListener(view -> {
+            Log.d(TAG, "onClick: Clicked on repark");
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                return;
+            }
+
+            if (ActivityCompat.checkSelfPermission(SaveLocationActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                return;
+            }
+
+            if (!gpsControls.isGPSEnable()) {
+                gpsControls.turnOnGPS();
+                return;
+            }
+            LoadingDialogFragment dialog = new LoadingDialogFragment();
+            dialog.show(getSupportFragmentManager(), "LoadingDialogFragment");
+            try {
+                LocationServices.getFusedLocationProviderClient(SaveLocationActivity.this).requestLocationUpdates(locationRequest, new LocationCallback() {
+                    @Override
+                    public void onLocationResult(@NonNull LocationResult locationResult) {
+                        super.onLocationResult(locationResult);
+                        LocationServices.getFusedLocationProviderClient(SaveLocationActivity.this).removeLocationUpdates(this);
+                        dialog.dismiss();
+                        if (locationResult.getLocations().size() > 0) {
+                            int index = locationResult.getLocations().size() - 1;
+                            latitude = locationResult.getLocations().get(index).getLatitude();
+                            longitude = locationResult.getLocations().get(index).getLongitude();
+                            gpsControls.getAddressToText(latitude, longitude, currentLocation);
+                            parkEvent = new ParkEvent(latitude, longitude, SaveLocationActivity.this);
+                            parkEventsList.create(parkEvent);
+                            crud.updateList(parkEventsList.getMyList());
+                            manager.setLocation(parkEvent);
+                            manager.putToSharedPreferences();
+                        }
+                    }
+                }, Looper.getMainLooper());
+
+            } catch (Exception e) {
+                Log.d(TAG, "Searching location: Cant get location");;
+            }
 
 
         });
@@ -95,6 +153,7 @@ public class SaveLocationActivity extends AppCompatActivity {
             crud.updateList(parkEventsList.getMyList());
             SaveDialogFragment dialog = new SaveDialogFragment();
             dialog.show(getSupportFragmentManager(), "SaveDialogFragment");
+            save.setClickable(false);
         });
 
 

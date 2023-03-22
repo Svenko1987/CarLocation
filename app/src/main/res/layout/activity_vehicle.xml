@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.VehicleActivity">
+    tools:context=".view.activities.VehicleActivity">
 
     <Button
         android:id="@+id/addVehilicleBtn"
@@ -39,7 +39,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="com.example.carlocation.view.VehicleListFragment"
+        android:name="com.example.carlocation.view.fragments.VehicleListFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"

@@ -1,4 +1,4 @@
-package com.example.carlocation.view;
+package com.example.carlocation.view.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

@@ -1,4 +1,4 @@
-package com.example.carlocation.view;
+package com.example.carlocation.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -12,6 +12,8 @@ import com.example.carlocation.R;
 import com.example.carlocation.controls.logic.ListCRUD;
 import com.example.carlocation.model.Vehicle;
 import com.example.carlocation.model.VehicleList;
+import com.example.carlocation.view.fragments.AddVehicle;
+import com.example.carlocation.view.fragments.VehicleListFragment;
 
 public class VehicleActivity extends AppCompatActivity {
     private Button addVehicle;

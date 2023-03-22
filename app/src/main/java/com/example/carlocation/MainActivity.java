@@ -37,9 +37,8 @@ import com.example.carlocation.controls.logic.SharedPreferencesManagerVehicle;
 import com.example.carlocation.model.Vehicle;
 import com.example.carlocation.model.VehicleList;
 import com.example.carlocation.view.ChronometerControls;
-import com.example.carlocation.view.HistoryActivity;
-import com.example.carlocation.view.SaveLocationActivity;
-import com.example.carlocation.view.SavedActivity;
+import com.example.carlocation.view.activities.HistoryActivity;
+import com.example.carlocation.view.activities.SaveLocationActivity;
 import com.example.carlocation.controls.logic.GPSControls;
 import com.example.carlocation.controls.logic.ListCRUD;
 import com.example.carlocation.controls.logic.SharedPreferencesManagerParkEvent;
@@ -48,7 +47,9 @@ import com.example.carlocation.view.ShareData;
 import com.example.carlocation.controls.logic.NotificationPublisher;
 import com.example.carlocation.model.ParkEvent;
 import com.example.carlocation.model.ParkEventsList;
-import com.example.carlocation.view.VehicleActivity;
+import com.example.carlocation.view.activities.VehicleActivity;
+import com.example.carlocation.view.fragments.LoadingDialogFragment;
+import com.example.carlocation.view.fragments.SaveDialogFragment;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -237,14 +238,16 @@ public class MainActivity extends AppCompatActivity {
                 gpsControls.turnOnGPS();
                 return;
             }
-
-            elementsVisibility.searchingForLocation();
+            LoadingDialogFragment dialog = new LoadingDialogFragment();
+            dialog.show(getSupportFragmentManager(), "LoadingDialogFragment");
+            //elementsVisibility.searchingForLocation();
             try {
                 LocationServices.getFusedLocationProviderClient(MainActivity.this).requestLocationUpdates(locationRequest, new LocationCallback() {
                     @Override
                     public void onLocationResult(@NonNull LocationResult locationResult) {
                         super.onLocationResult(locationResult);
                         LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
+                        dialog.dismiss();
                         if (locationResult.getLocations().size() > 0) {
                             int index = locationResult.getLocations().size() - 1;
                             latitude = locationResult.getLocations().get(index).getLatitude();

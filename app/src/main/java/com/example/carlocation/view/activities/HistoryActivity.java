@@ -1,4 +1,4 @@
-package com.example.carlocation.view;
+package com.example.carlocation.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import com.example.carlocation.R;
 import com.example.carlocation.controls.logic.ListCRUD;
 import com.example.carlocation.model.ParkEvent;
 import com.example.carlocation.model.ParkEventsList;
+import com.example.carlocation.view.recyclerParkEventAdapter;
 
 
 public class HistoryActivity extends AppCompatActivity {

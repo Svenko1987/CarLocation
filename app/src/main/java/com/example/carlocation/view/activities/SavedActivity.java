@@ -1,4 +1,4 @@
-package com.example.carlocation.view;
+package com.example.carlocation.view.activities;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +16,7 @@ import com.example.carlocation.MainActivity;
 import com.example.carlocation.R;
 import com.example.carlocation.controls.logic.ListCRUD;
 import com.example.carlocation.model.ParkEventsList;
+import com.example.carlocation.view.recyclerParkEventAdapter;
 
 public class SavedActivity extends AppCompatActivity {
     private ParkEventsList parkEventsList;

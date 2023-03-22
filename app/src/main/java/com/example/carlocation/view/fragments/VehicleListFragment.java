@@ -1,4 +1,4 @@
-package com.example.carlocation.view;
+package com.example.carlocation.view.fragments;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.carlocation.MainActivity.MyPREFERENCES;
@@ -24,6 +24,8 @@ import com.example.carlocation.controls.logic.SharedPreferencesManagerParkEvent;
 import com.example.carlocation.controls.logic.SharedPreferencesManagerVehicle;
 import com.example.carlocation.model.Vehicle;
 import com.example.carlocation.model.VehicleList;
+import com.example.carlocation.view.SelectListener;
+import com.example.carlocation.view.recyclerVehiclesAdapter;
 
 
 public class VehicleListFragment extends Fragment implements SelectListener<Vehicle> {

@@ -18,11 +18,11 @@
         android:theme="@style/Theme.CarLocation"
         tools:targetApi="31">
         <activity
-            android:name=".view.VehicleActivity"
+            android:name=".view.activities.VehicleActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".view.SaveLocationActivity"
+            android:name=".view.activities.SaveLocationActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
@@ -36,8 +36,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.SavedActivity" />
-        <activity android:name=".view.HistoryActivity" />
+        <activity android:name=".view.activities.SavedActivity" />
+        <activity android:name=".view.activities.HistoryActivity" />
 
         <receiver android:name=".controls.logic.NotificationPublisher" />
     </application>
