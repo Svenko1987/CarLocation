@@ -47,17 +47,28 @@ public class recyclerParkEventAdapter extends RecyclerView.Adapter<recyclerParkE
 
     @Override
     public void onBindViewHolder(@NonNull recyclerParkEventAdapter.MyViewHolder holder, int position) {
-        if(parkEvents.read(position)==null) return;
+        if (parkEvents.read(position) == null) return;
         String date = parkEvents.read(position).getDate();
-        String address= parkEvents.read(position).getStreet()
-                .concat(" ").concat(parkEvents.read(position).getHouseNumber())
-                .concat("\n").concat(parkEvents.read(position).getCity());
+
+
+// Retrieve the street, house number, and city values from the event
+        String street = parkEvents.read(position).getStreet();
+        String houseNumber = parkEvents.read(position).getHouseNumber();
+        String city = parkEvents.read(position).getCity();
+
+// Check if any of the values are null, and replace them with "unknown" if necessary
+        street = (street == null) ? "unknown" : street;
+        houseNumber = (houseNumber == null) ? "unknown" : houseNumber;
+        city = (city == null) ? "unknown" : city;
+
+// Concatenate the street, house number, and city into a single string with a newline character
+        String address = street + " " + houseNumber + "\n" + city;
         holder.addressText.setText(address);
         holder.dateAndTime.setText(date);
         holder.imageView.setBackgroundResource(R.drawable.pngegg);
         Log.d(TAG, "onBindViewHolder: Changed image");
 
-        if(position==0){
+        if (position == 0) {
             holder.imageView.setBackgroundResource(R.drawable.pngegg);
             Log.d(TAG, "onBindViewHolder: Changed image");
         }
