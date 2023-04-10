@@ -24,7 +24,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constaLay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
 
             <TextView
@@ -74,7 +74,7 @@
                 android:layout_height="78dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="64dp"
                 android:contentDescription="Color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,16 +86,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
                 android:minHeight="48dp"
                 android:text="Note"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/firstRegistrationLb"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/licensePlateLb"
-                app:layout_constraintTop_toTopOf="@+id/firstRegistrationLb" />
+                app:layout_constraintStart_toStartOf="@+id/licensePlateLb" />
 
             <TextView
                 android:id="@+id/textView"
@@ -109,6 +107,35 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/licensePlateLb"
                 app:layout_constraintTop_toTopOf="@+id/vehicleNameLb" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="65dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/confirm"
+                android:alpha="0"
+                app:layout_constraintStart_toStartOf="@+id/colorPickerBtn"
+                app:layout_constraintTop_toBottomOf="@+id/colorPickerBtn" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/edit"
+                app:layout_constraintBaseline_toBaselineOf="@+id/button"
+                app:layout_constraintEnd_toStartOf="@+id/button5"
+                android:alpha="0"
+                app:layout_constraintStart_toEndOf="@+id/button" />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/delete"
+                android:alpha="0"
+                app:layout_constraintBaseline_toBaselineOf="@+id/button2"
+                app:layout_constraintEnd_toEndOf="@+id/vehlicleNoteLb" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
